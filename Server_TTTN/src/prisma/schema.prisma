@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model BookingDetail {
+  id             Int         @id @default(autoincrement())
+  booking_id     Int
+  so_luong_khach Int
+  nguoilon       Int?
+  treem          Int?
+  embe           Int?
+  price          Int?
+  unit           String?     @db.VarChar(255)
+  BookingRoom    BookingRoom @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingDetail_ibfk_1")
+
+  @@index([booking_id], map: "booking_id")
+}
+
+model BookingRoom {
+  id            Int             @id @default(autoincrement())
+  checkin       DateTime        @db.DateTime(0)
+  checkout      DateTime        @db.DateTime(0)
+  note          String?         @db.VarChar(255)
+  created_at    DateTime        @default(now()) @db.Timestamp(0)
+  customer_id   Int
+  room_id       Int
+  Users         Users           @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_1")
+  Room          Room            @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_2")
+  BookingDetail BookingDetail[]
+
+  @@index([customer_id], map: "customer_id")
+  @@index([room_id], map: "room_id")
+}
+
+model Comments {
+  id                 Int       @id @default(autoincrement())
+  idRoom             Int?
+  customercomment_id Int?
+  datacomment        String?   @db.VarChar(255)
+  created_at         DateTime? @db.Timestamp(0)
+  rate               Int?
+  Users              Users?    @relation(fields: [customercomment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_1")
+  Room               Room?     @relation(fields: [idRoom], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_2")
+
+  @@index([customercomment_id], map: "customercomment_id")
+  @@index([idRoom], map: "idRoom")
+}
+
+model Image {
+  id       Int     @id @default(autoincrement())
+  room_id  Int?
+  urlimage String? @db.VarChar(1000)
+  Room     Room?   @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Image_ibfk_1")
+
+  @@index([room_id], map: "room_id")
+}
+
+model Location {
+  id       Int     @id @default(autoincrement())
+  idRoom   Int
+  location String  @db.VarChar(255)
+  provine  String? @db.VarChar(255)
+  nation   String  @db.VarChar(255)
+  image    String? @db.VarChar(1000)
+  Room     Room    @relation(fields: [idRoom], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Location_ibfk_1")
+
+  @@index([idRoom], map: "idRoom")
+}
+
+model Room {
+  id          Int           @id @default(autoincrement())
+  ten_phong   String        @db.VarChar(255)
+  mo_ta       String?       @db.VarChar(255)
+  hinh_anh    String        @db.VarChar(400)
+  gia_tien    Int?
+  khach       Int?
+  phong_ngu   Int?
+  giuong      Int?
+  phong_tam   Int?
+  may_giat    Boolean?
+  tivi        Boolean?
+  ban_la      Boolean?
+  dieu_hoa    Boolean?
+  wifi        Boolean?
+  bep         Boolean?
+  do_xe       Boolean?
+  ho_boi      Boolean?
+  ban_ui      Boolean?
+  BookingRoom BookingRoom[]
+  Comments    Comments[]
+  Image       Image[]
+  Location    Location[]
+  Typeroom    Typeroom?
+}
+
+model Typeroom {
+  idRoom   Int     @id
+  typeroom String? @db.VarChar(255)
+  Room     Room    @relation(fields: [idRoom], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Typeroom_ibfk_1")
+}
+
+model Users {
+  id          Int           @id @default(autoincrement())
+  username    String        @db.VarChar(255)
+  gender      Boolean
+  phone       String        @db.VarChar(255)
+  email       String        @db.VarChar(255)
+  password    String        @db.VarChar(255)
+  role        String        @db.VarChar(10)
+  created_at  DateTime      @default(now()) @db.Timestamp(0)
+  birthday    String?       @db.VarChar(255)
+  avatar      String?       @db.LongText
+  BookingRoom BookingRoom[]
+  Comments    Comments[]
+  Messages    Messages[]
+}
+
+model Messages {
+  id         Int       @id @default(autoincrement())
+  user1      Int
+  user2      Int
+  message    String    @db.VarChar(1000)
+  send_id    Int
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  Users      Users     @relation(fields: [send_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Messages_ibfk_1")
+
+  @@index([send_id], map: "send_id")
+}
