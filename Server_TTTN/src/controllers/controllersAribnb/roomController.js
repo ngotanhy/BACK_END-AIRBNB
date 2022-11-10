@@ -4,8 +4,6 @@ const fs = require('fs');
 let { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-const multer = require('multer');
-const upload = multer({ dest: './puplic/img' })
 
 const getAllRoom = async (req, res, next) => {
     try {
@@ -51,7 +49,6 @@ const getRoomById = async (req, res, next) => {
 const uploadImage = async (req, res, next) => {
     try {
         let { id } = req.params;
-        console.log(id)
         let fileImages = await (process.cwd() + '/' + req.file.path);//lay duong dan file anh
         console.log(typeof fileImages)
         let data={

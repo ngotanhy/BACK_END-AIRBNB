@@ -63,12 +63,15 @@ export default function ChatContainer({ currentChat, socket }: Props) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("msg-receive", (msg: string) => {
-        console.log(msg);
-        setArrivalMessage({ fromSelf: false, message: msg });
-      });
+      socket.current.on(
+        "msg-receive",
+        (data: { msg: string; from: string | number }) => {
+          console.log(data.msg);
+          setArrivalMessage({ fromSelf: false, message: data.msg });
+        }
+      );
     }
-  },[socket.current]);
+  }, []);
 
   useEffect(() => {
     arrivalMessage && setArrMessage((prev: any) => [...prev, arrivalMessage]);
