@@ -7,17 +7,17 @@ const register = async (req, res, next) => {
     const { username, gender, phone, email, password, role, birthday, avatar } = req.body;
     let checkUerName = await prisma.users.findFirst({ where: { username: username } })
     if (checkUerName !== null) {
-      res.send("co username roi")
+      failCode(res, "co user roi", "failed to find user")
       next()
     } else {
       let genderConvert = (gender === "true" ? true : false);
       let data = { username, gender: genderConvert, phone, email, password, role, birthday }
       let useCreate = await prisma.users.create({ data });
-      res.send(useCreate)
+      successCode(res, useCreate, "create user successfully")
     }
     next();
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode')
   }
 }
 
@@ -44,26 +44,34 @@ const singIn = async (req, res, next) => {
       failCode(res, "username fail", false)
     }
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode')
   }
 }
 
 const getUsersById = async (req, res, next) => {
   try {
     let { id } = req.params;
-    let data = await prisma.users.findFirst({ where: { id: Number(id) } },)
-    res.json(data);
+    let data = await prisma.users.findFirst({ where: { id:Number(id)} });
+    if (data !== null) {
+      successCode(res, data, "find user successfully")
+    } else {
+      failCode(res, "kh co user", "user undefined")
+    }
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode');
   }
 }
 
 const getAllUsers = async (req, res, next) => {
   try {
     let data = await prisma.users.findMany();
-    res.json(data)
+    if (data.length !== null) {
+      successCode(res, data, "successfully")
+    } else {
+      failCode(res, "kh co user", "user undefined")
+    }
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode')
   }
 }
 
@@ -72,9 +80,13 @@ const getAllUserRoleUser = async (req, res, next) => {
     let data = await prisma.users.findMany(
       { where: { role: "USER" } }
     );
-    res.json(data);
+    if (data.length !== null) {
+      successCode(res, data, "successfully")
+    } else {
+      failCode(res, "kh co user", "user undefined")
+    }
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode')
   }
 };
 
@@ -83,9 +95,13 @@ const getUserAdmin = async (req, res, next) => {
     let data = await prisma.users.findFirst(
       { where: { role: "ADMIN" } }
     );
-    res.json(data);
+    if (data !== null) {
+      successCode(res, data, "successfully")
+    } else {
+      failCode(res, "kh co user", "user undefined")
+    }
   } catch (err) {
-    console.log(err)
+    errorCode(res, 'failCode')
   }
 };
 
