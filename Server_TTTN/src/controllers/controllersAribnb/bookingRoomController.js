@@ -1,9 +1,8 @@
-//tao model
-//database first, code first
-//truy van du lieu
 let { PrismaClient } = require('@prisma/client')
 const { failCode, errorCode } = require('../../ultis/reponse')
 const prisma = new PrismaClient()
+
+
 
 const createBooking = async (req, res, next) => {
     try {
@@ -53,6 +52,7 @@ const getBookingById = async (req, res, next) => {
         let data = await prisma.bookingRoom.findFirst({ where: { id } });
         if (data.length !== null) {
             successCode(res, data, "successfully")
+            next()
         } else {
             failCode(res, "", "Kh co du lieu")
         }
@@ -111,6 +111,8 @@ const getByIdUser = async (req, res, next) => {
         errorCode(res, 'failure')
     }
 }
+
+
 
 module.exports = {
     createBooking,

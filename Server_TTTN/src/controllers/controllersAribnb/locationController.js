@@ -1,5 +1,13 @@
-//tao model
-//database first, code first
-//truy van du lieu
-let { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+let { PrismaClient } = require('@prisma/client');
+const { errorCode } = require('../../ultis/reponse');
+const prisma = new PrismaClient();
+
+const createLocation = async (req, res, next) => {
+    try { } catch (err) {
+        errorCode(res, "failure")
+    }
+}
+
+module.exports = {
+
+}
