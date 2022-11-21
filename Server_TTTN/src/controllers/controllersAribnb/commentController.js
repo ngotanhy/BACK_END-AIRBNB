@@ -32,6 +32,7 @@ const getAllCommentByIdRoom = async (req, res, next) => {
         errorCode(res, "failure")
     }
 }
+
 const getAllCommentByIdUser = async (req, res, next) => {
     try {
         let { id } = req.params;

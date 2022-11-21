@@ -10,10 +10,10 @@ datasource db {
 model BookingDetail {
   id             Int         @id @default(autoincrement())
   booking_id     Int
-  so_luong_khach Int
-  nguoilon       Int?
-  treem          Int?
-  embe           Int?
+  numberCustomer Int
+  adult          Int?
+  child          Int?
+  baby           Int?
   price          Int?
   unit           String?     @db.VarChar(255)
   BookingRoom    BookingRoom @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingDetail_ibfk_1")
@@ -23,8 +23,8 @@ model BookingDetail {
 
 model BookingRoom {
   id            Int             @id @default(autoincrement())
-  checkin       DateTime        @db.DateTime(0)
-  checkout      DateTime        @db.DateTime(0)
+  checkIn       DateTime        @db.DateTime(0)
+  checkOut      DateTime        @db.DateTime(0)
   note          String?         @db.VarChar(255)
   created_at    DateTime        @default(now()) @db.Timestamp(0)
   customer_id   Int
@@ -62,14 +62,11 @@ model Image {
 
 model Location {
   id       Int     @id @default(autoincrement())
-  room_id  Int
   location String  @db.VarChar(255)
   provine  String? @db.VarChar(255)
-  nation   String  @db.VarChar(255)
-  image    String? @db.VarChar(1000)
-  Room     Room    @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Location_ibfk_1")
-
-  @@index([room_id], map: "idRoom")
+  nation   String? @db.VarChar(255)
+  image    String? @db.LongText
+  Room     Room[]
 }
 
 model Messages {
@@ -85,29 +82,30 @@ model Messages {
 }
 
 model Room {
-  id          Int           @id @default(autoincrement())
-  ten_phong   String        @db.VarChar(255)
-  mo_ta       String?       @db.VarChar(255)
-  hinh_anh    String        @db.VarChar(400)
-  gia_tien    Int?
-  khach       Int?
-  phong_ngu   Int?
-  giuong      Int?
-  phong_tam   Int?
-  may_giat    Boolean?
-  tivi        Boolean?
-  ban_la      Boolean?
-  dieu_hoa    Boolean?
-  wifi        Boolean?
-  bep         Boolean?
-  do_xe       Boolean?
-  ho_boi      Boolean?
-  ban_ui      Boolean?
-  BookingRoom BookingRoom[]
-  Comments    Comments[]
-  Image       Image[]
-  Location    Location[]
-  Typeroom    Typeroom?
+  id             Int           @id @default(autoincrement())
+  nameRoom       String        @db.VarChar(255)
+  description    String?       @db.VarChar(255)
+  price          Int?
+  numberCustomer Int?
+  bedRoom        Int?
+  bed            Int?
+  bathRoom       Int?
+  washing        Boolean?
+  tivi           Boolean?
+  iron           Boolean?
+  airCondition   Boolean?
+  wifi           Boolean?
+  kitchen        Boolean?
+  parkingCar     Boolean?
+  pool           Boolean?
+  location_id    Int
+  Location       Location      @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Room_ibfk_1")
+  BookingRoom    BookingRoom[]
+  Comments       Comments[]
+  Image          Image[]
+  Typeroom       Typeroom?
+
+  @@index([location_id], map: "location_id")
 }
 
 model Typeroom {

@@ -1,11 +1,11 @@
 const {
-    createComment, 
+    createComment,
     getAllCommentByIdRoom,
     getAllCommentByIdUser,
     updateCommentById,
     deleteComment,
 
-} = require("../../controllers/controllersAribnb/commentController");
+} = require("../../controllers/controllersAriBnb/commentController");
 
 const routeComment = require("express").Router();
 
