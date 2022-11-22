@@ -1,13 +1,15 @@
 const {
-    getBookingById,
-    updateBookingId,
-    deleteBooking,
     getByIdUser,
-    createBooking,
-    getAllBooking
+    deleteBooking,
+    updateBookingId,
+    getBookingById,
+    getAllBooking,
+    createBooking
 } = require("../../controllers/controllersAriBnb/bookingRoomController");
 
 const routeBookingRoom = require("express").Router();
+const { verifyToken } = require("../../middleWares/auth");
+
 
 routeBookingRoom.post("/", createBooking)
 routeBookingRoom.get("/getBooking", getAllBooking)

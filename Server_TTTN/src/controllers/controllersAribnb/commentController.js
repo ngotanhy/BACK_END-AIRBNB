@@ -7,12 +7,17 @@ const createComment = async (req, res, next) => {
     try {
         let { customer_id, room_id, datacomment, rate } = req.body;
         let data = await prisma.comments.create({
-            data: { customer_id, room_id, datacomment, rate }
+            data: {
+                customer_id: Number(customer_id),
+                room_id: Number(room_id),
+                datacomment,
+                rate: Number(rate)
+            }
         });
         if (data) {
             successCode(res, data, "successfully")
         } else {
-            failCode(res, data, "cannot create comment")
+            failCode(res, 'false', "cannot create comment")
         }
     } catch (err) {
         errorCode(res, "failure")
@@ -26,7 +31,7 @@ const getAllCommentByIdRoom = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {
-            failure(res, data, "cannot find comment")
+            failCode(res, 'false', "cannot find comment")
         }
     } catch (err) {
         errorCode(res, "failure")
@@ -40,7 +45,7 @@ const getAllCommentByIdUser = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {
-            failure(res, data, "cannot find comment")
+            failCode(res, 'false', "cannot find comment")
         }
     } catch (err) {
         errorCode(res, "failure")
@@ -53,20 +58,21 @@ const updateCommentById = async (req, res, next) => {
         let { datacomment, rate } = req.body;
         let findComment = await prisma.comments.findFirst({ where: { id: Number(id) } });
         if (findComment) {
+            let data = {
+                datacomment: datacomment ? datacomment : findComment.datacomment,
+                rate: rate ? Number(rate) : findComment.rate
+            }
             let update = await prisma.comments.update({
                 where: { id: Number(id) },
-                data: {
-                    datacomment,
-                    rate
-                }
+                data
             })
             if (update) {
-                successCode(res, data, "update successfully")
+                successCode(res, update, "update successfully")
             } else {
-                failCode(res, data, "cannot update")
+                failCode(res, 'false', "cannot update")
             }
         } else {
-            failCode(res, data, "cannot update")
+            failCode(res, 'false', "cannot update")
         }
     } catch (err) {
         errorCode(res, "failure")
@@ -74,17 +80,21 @@ const updateCommentById = async (req, res, next) => {
 }
 
 const deleteComment = async (req, res, next) => {
-    try {
-        let { id } = req.body;
-        let data = await prisma.comments.delete({
-            where: {
-                id: Number(id)
+    try {   
+        let { id } = req.params;
+        let findComment = await prisma.comments.findFirst({ where: { id: Number(id) } });
+        if (findComment) {
+            let data = await prisma.comments.delete({
+                where: {
+                    id: Number(id)
+                }
+            })
+            if (data) {
+                successCode(res, 'true', "delete successfully")
             }
-        })
-        if (data) {
-            successCode(res, data, "delete successfully")
-        } else {
-            failure(res, data, "cannot find comment")
+        }
+        else {
+            failCode(res, 'false', "comment invalid")
         }
     } catch (err) {
         errorCode(res, "failure")

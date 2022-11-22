@@ -1,14 +1,14 @@
 const moment = require("moment/moment");
 
-function sameDay(d1, d2) {
-  return d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate();
+const checkItem = (check) => {
+  return check === 'true' || check === "1" || check === 1 ? true : false;
 }
 
-const checkBoolean = (check) => {
-  return check === 'true' ? true : false;
-}
+// const checkEmpty=(check,currentItem,data) => {
+//   if(Number(check)>0 && check > currentItem ){
+     
+//   }
+// }
 
 const checkSameDay = (d1, d2) => {
   const formatDate = "YYYY DD MM"
@@ -22,8 +22,10 @@ const checkSameDay = (d1, d2) => {
   }
 }
 
+// const check
+
 module.exports = {
   checkSameDay,
-  checkBoolean
+  checkItem
 }
 

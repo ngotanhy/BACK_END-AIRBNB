@@ -187,7 +187,11 @@ const deleteBooking = async (req, res, next) => {
 const getByIdUser = async (req, res, next) => {
     try {
         let { idUser } = req.params;
-        let data = await prisma.booking.findMany({ where: { customer_id: Number(idUser.id) } });
+        let data = await prisma.booking.findMany({ 
+            where: { 
+                customer_id: Number(idUser.id) 
+            } 
+        });
         if (data.length !== null) {
             successCode(res, data, "successfully")
         } else {

@@ -3,6 +3,7 @@ const { errorCode, successCode, failCode } = require('../../ultis/reponse');
 const prisma = new PrismaClient();
 const fs = require('fs');
 const { uploadSingle } = require('../../models/ModelCloudinary');
+const { pagination } = require('../../ultis/Pagination');
 
 
 const createLocation = async (req, res, next) => {
@@ -25,7 +26,6 @@ const createLocation = async (req, res, next) => {
     }
 }
 
-
 const deleteLocation = async (req, res, next) => {
     try {
         let { id } = req.params;
@@ -43,7 +43,7 @@ const deleteLocation = async (req, res, next) => {
 const getAllLocation = async (req, res, next) => {
     try {
         let data = await prisma.location.findMany({
-            include:{ Room: true}
+            include: { Room: true }
         });
         if (!data.length) {
             failCode(res, data, "cannot find")
@@ -72,9 +72,28 @@ const getLocationById = async (req, res, next) => {
     }
 }
 
+const getPaginationLocation = async (req, res, next) => {
+    try {
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+        let data = await prisma.location.findMany({include: {Room: true}});
+        if (data) {
+            let results = await pagination(data, page, limit);
+            if (results) {
+                successCode(res, results, "find successfully");
+            }
+        } else {
+            failCode(res, "false", "cannot find")
+        }
+    } catch (err) {
+        errorCode(res, "failure")
+    }
+}
+
 module.exports = {
     createLocation,
     getAllLocation,
     deleteLocation,
     getLocationById,
+    getPaginationLocation,
 }

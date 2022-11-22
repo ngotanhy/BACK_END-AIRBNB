@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const { successCode, failCode, errorCode } = require("../../ultis/reponse");
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
+const { encodeToken } = require("../../middleWares/auth");
 
 
 const register = async (req, res, next) => {
@@ -23,10 +24,8 @@ const register = async (req, res, next) => {
       let data = { username, gender: genderConvert, phone, email, password, role, birthday }
       let useCreate = await prisma.users.create({ data });
       // Return token
-      const accessToken = jwt.sign(
-        { userId: useCreate.email },
-        process.env.ACCESS_TOKEN_SECRET
-      )
+      const  accessToken = await encodeToken ({ userId: useCreate.email })
+
       if (useCreate) {
         successCode(res, { ...useCreate, accessToken: accessToken }, "create user successfully")
       } else { failCode(res, "", "create user failed") }
@@ -38,11 +37,14 @@ const register = async (req, res, next) => {
 }
 
 const singIn = async (req, res, next) => {
-  try {
+  // try {
     const { email, password } = req.body;
     let checkEmail = await prisma.users.findFirst({ where: { email: email } })
     if (checkEmail !== null) {
       let checkPassword = await prisma.users.findFirst({ where: { password: password } })
+      // Return token
+      const  accessToken = await encodeToken ({ userId: checkPassword.email })
+
       if (checkPassword !== null) {
         let userLogin = {
           id: checkPassword.id,
@@ -52,17 +54,19 @@ const singIn = async (req, res, next) => {
           phone: checkPassword.phone,
           role: checkPassword.role
         }
-        successCode(res, userLogin, true)
+        successCode(res, {...userLogin,accessToken:accessToken}, true);
+        next()
       } else {
         failCode(res, "password fail", false)
       }
     } else {
       failCode(res, "email fail", false)
     }
-  } catch (err) {
-    errorCode(res, 'failCode')
-  }
+  // } catch (err) {
+  //   errorCode(res, 'failCode')
+  // }
 }
+
 module.exports={
     singIn,
     register
