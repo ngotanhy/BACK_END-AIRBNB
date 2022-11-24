@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const fs = require('fs');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
 const { pagination } = require('../../ultis/Pagination');
-
+const {extractPublicId }=require('cloudinary-build-url')
 
 const createLocation = async (req, res, next) => {
     try {
@@ -34,7 +34,8 @@ const updateLocation = async (req, res, next) => {
             where: { id: Number(id) }
         });
         if (findLocation) {
-            await deletedImage((findLocation.image)).then((result) => {
+            const publicId = extractPublicId(findLocation.image)
+            await deletedImage((publicId)).then((result) => {
                 console.log(result);
             });
 
