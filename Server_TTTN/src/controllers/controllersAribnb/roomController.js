@@ -151,13 +151,35 @@ const getRoomById = async (req, res, next) => {
             include: {
                 Location: true,
                 Typeroom: true,
-                Image: true
+                Image: {
+                    select: {
+                        urlimage: true,
+                    }
+                }
             },
         });
         if (data) {
             successCode(res, data, "thanh cong")
         } else {
             failCode(res, data, "not found")
+        }
+    } catch (err) {
+        errorCode(res, 'failed')
+    }
+}
+
+const getRoomByName = async (req, res, next) => {
+    try {
+        let { name } = req.params;
+        let data = await prisma.room.findMany({
+            where: {
+                nameRoom: { contains: name }
+            }
+        })
+        if (data.length) {
+            successCode(res, data, "find successfully")
+        } else {
+            failCode(res, 'false', 'cannot find name room')
         }
     } catch (err) {
         errorCode(res, 'failed')
@@ -254,4 +276,5 @@ module.exports = {
     paginationRoom,
     getRoomLocation,
     updateRoom,
+    getRoomByName
 }

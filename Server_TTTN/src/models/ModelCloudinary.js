@@ -1,18 +1,18 @@
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs')
 
-cloudinary.config({ 
-    cloud_name: 'dxco2rmz4', 
-    api_key: '869174653734974', 
-    api_secret: 'v5qIiRZXL9SEJiajlmrjcRE46tU' 
-  });
+cloudinary.config({
+    cloud_name: 'dxco2rmz4',
+    api_key: '869174653734974',
+    api_secret: 'v5qIiRZXL9SEJiajlmrjcRE46tU'
+});
 
- module.exports = {
+module.exports = {
     uploadSingle: (file) => {
         return new Promise(resolve => {
             cloudinary.uploader.upload(file, {
-                    folder: 'single'
-                })
+                folder: 'single'
+            })
                 .then(result => {
                     if (result) {
                         const fs = require('fs')
@@ -27,8 +27,8 @@ cloudinary.config({
     uploadMultiple: (file) => {
         return new Promise(resolve => {
             cloudinary.uploader.upload(file, {
-                    folder: 'single'
-                })
+                folder: 'single'
+            })
                 .then(result => {
                     if (result) {
                         const fs = require('fs')
@@ -44,6 +44,17 @@ cloudinary.config({
                 })
         })
     },
+    deletedImage: (url) => {
+        return new Promise(resolve => {
+            cloudinary.uploader.destroy(url)
+            .then(result => {
+                if (result) {
+                    resolve(result);
+                }
+            })
+        })
+    },
+
     reSizeImage: (id, h, w) => {
         return cloudinary.url(id, {
             height: h,

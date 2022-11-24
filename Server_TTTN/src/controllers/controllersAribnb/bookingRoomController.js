@@ -1,125 +1,145 @@
 let { PrismaClient } = require('@prisma/client');
-const { checkSameDay } = require('../../ultis/checkTemplate');
+const { checkDayValid, checkDay } = require('../../ultis/checkTemplate');
 const { failCode, errorCode, successCode } = require('../../ultis/reponse')
 const prisma = new PrismaClient()
-
-
-
-// const createBooking = async (req, res, next) => {
-//     try {
-//         let { checkIn, checkOut, customer_id, room_id, note, numberCustomer, price, adult, baby, child, unit } = req.body;
-//         let dateForm = "MM/DD/YYYY";
-//         let dataBooking = await prisma.bookingRoom.findMany({
-//             where: {
-//                 room_id: Number(room_id)
-//             }
-//         });
-//         if (dataBooking?.length > 0) {
-//             //check the sample customer_id, checkin, check out
-//             let check = true;
-//             check = dataBooking?.map((item) => {
-//                 let dateCheckIn = moment(item.checkIn).format(dateForm);
-//                 let dateCheckOut = moment(item.checkOut).format(dateForm);
-//                 let checkDate = checkSameDay(dateCheckIn, checkIn) && checkSameDay(dateCheckOut, checkOut);
-//                 if (item.customer_id === customer_id && checkDate) {
-//                     return false;
-//                 }
-//             })
-//             if (check) {
-//                 let data = await prisma.bookingRoom.create({
-//                     data: { checkIn, checkOut, customer_id, room_id, note }
-//                 });
-//                 if (data !== null) {
-//                     let booking_id = Number(data.id);
-//                     let createDetailBooking = await prisma.bookingDetail.create({
-//                         data: {
-//                             booking_id,
-//                             numberCustomer: Number(numberCustomer),
-//                             adult: Number(adult),
-//                             baby: Number(baby),
-//                             child: Number(child),
-//                             price: Number(price)
-//                         }
-//                     })
-//                     if (createDetailBooking) {
-//                         successCode(res, data, "create booking successfully")
-//                     } else {
-//                         errorCode(res, "cannot create booking")
-//                     }
-//                 } else {
-//                     errorCode(res, "cannot create booking")
-//                 };
-//             } else {
-//                 failCode(res, checkData, "da co duoc dat");
-//             }
-//         }
-//     } catch (err) {
-//         errorCode(res, "failed")
-//     }
-// }
+const moment = require('moment')
 
 
 const createBooking = async (req, res, next) => {
     try {
         let { checkIn, checkOut, customer_id, room_id, note, numberCustomer, price, adult, baby, child, unit } = req.body;
-        console.log(checkIn, checkOut, customer_id, room_id, note, numberCustomer, price, adult, baby, child, unit )
-          
-        // let dateForm = "MM/DD/YYYY";
-        // let dataBooking = await prisma.bookingRoom.findMany({
-        //     where: {
-        //         room_id: Number(room_id)
-        //     }
-        // });
-        // if (dataBooking?.length > 0) {
-        //     //check the sample customer_id, checkin, check out
-        //     let check = true;
-        //     check = dataBooking?.map((item) => {
-        //         let dateCheckIn = moment(item.checkIn).format(dateForm);
-        //         let dateCheckOut = moment(item.checkOut).format(dateForm);
-        //         let checkDate = checkSameDay(dateCheckIn, checkIn) && checkSameDay(dateCheckOut, checkOut);
-        //         if (item.customer_id === customer_id && checkDate) {
-        //             return false;
-        //         }
-        //     })
-        //     if (check) {
-                // let data = await prisma.bookingRoom.create({
-                //     data: { checkIn, checkOut, customer_id, room_id, note }
-                // });
-                // if (data !== null) {
-                //     let booking_id = Number(data.id);
-                //     let createDetailBooking = await prisma.bookingDetail.create({
-                //         data: {
-                //             booking_id,
-                //             numberCustomer: Number(numberCustomer),
-                //             adult: Number(adult),
-                //             baby: Number(baby),
-                //             child: Number(child),
-                //             price: Number(price)
-                //         }
-                //     })
-                //     if (createDetailBooking) {
-                //         successCode(res, data, "create booking successfully")
-                //     } else {
-                //         errorCode(res, "cannot create booking")
-                //     }
-                // } else {
-                //     errorCode(res, "cannot create booking")
-                // };
-        //     } else {
-        //         failCode(res, checkData, "da co duoc dat");
-        //     }
-        // }
+
+        let dataBooking = await prisma.bookingRoom.findMany({
+            where: {
+                room_id: Number(room_id)
+            }
+        });
+        console.log(dataBooking.length)
+        if (dataBooking.length) {
+            let checkDate = true;
+            for (let booking of dataBooking) {
+                let check_In = booking.checkIn;
+                let check_Out = booking.checkOut;
+                checkDate = checkDayValid(check_In, checkIn, check_Out, checkOut);
+                if (!checkDate) {
+                    break;
+                }
+            }
+            if (checkDate) {
+                const formatDate = "MM/DD/YYYY hh:mm:ss";
+                let data = await prisma.bookingRoom.create({
+                    data: {
+                        checkIn: new Date(moment(checkIn).format(formatDate)),
+                        checkOut: new Date(moment(checkOut).format(formatDate)),
+                        customer_id: Number(customer_id),
+                        room_id: Number(room_id),
+                        numberCustomer: Number(numberCustomer),
+                        price: Number(price),
+                        adult: Number(adult),
+                        baby: Number(baby),
+                        child: Number(child),
+                        unit,
+                        note
+                    }
+                })
+                if (data) {
+                    successCode(res, 'true', "create booking room successfully");
+                }
+            } else {
+                failCode(res, "false", "CheckIn Or CheckOut invalid ")
+            }
+        } else {
+            failCode(res, 'false', "cannot create booking");
+        }
     } catch (err) {
         errorCode(res, "failed")
     }
 }
+
+const updateBooking = async (req, res, next) => {
+    try {
+        let { id } = req.params;
+        let { checkIn, checkOut, customer_id, room_id, note, numberCustomer, price, adult, baby, child, unit } = req.body;
+        let dataBooking = await prisma.bookingRoom.findFirst({
+            where: {
+                id: Number(id)
+            }
+        });
+        let temp = false;
+        if (dataBooking) {
+            let check = checkDay(dataBooking.checkIn, checkIn, dataBooking.checkOut, checkOut);
+            if (check) {
+                temp = true;
+            } else {
+                let arrBookingRoom = await prisma.bookingRoom.findMany({ where: { room_id: Number(room_id) } })
+                let arrBookingRoomNew = [...arrBookingRoom].filter((item) => item.id !== dataBooking.id);
+                let checkDate = true;
+                for (let booking of arrBookingRoomNew) {
+                    let check_In = booking.checkIn;
+                    let check_Out = booking.checkOut;
+                    checkDate = checkDayValid(check_In, checkIn, check_Out, checkOut);
+                    if (!checkDate) {
+                        break;
+                    }
+                }
+                if (checkDate) {
+                    temp = true;
+                }
+            }
+            if (temp) {
+                const formatDate = "MM/DD/YYYY hh:mm:ss";
+                let data = await prisma.bookingRoom.update({
+                    where: { id: Number(id) },
+                    data: {
+                        checkIn: new Date(moment(checkIn).format(formatDate)),
+                        checkOut: new Date(moment(checkOut).format(formatDate)),
+                        customer_id: Number(customer_id),
+                        room_id: Number(room_id),
+                        numberCustomer: Number(numberCustomer),
+                        adult: Number(adult),
+                        baby: Number(baby),
+                        child: Number(child),
+                        price: Number(price),
+                        unit,
+                        note
+                    }
+                });
+                if (data) {
+                    successCode(res, 'true', "update booking successfully")
+                } else {
+                    failCode(res, 'false', "Cannot update booking");
+                }
+            } else {
+                failCode(res, 'false', "CheckIn Or CheckOut invalid");
+            }
+
+        } else {
+            failCode(res, 'false', "Cannot find booking");
+        }
+    } catch (err) {
+        errorCode(res, "failed")
+    }
+}
+
 const getAllBooking = async (req, res, next) => {
     try {
         let data = await prisma.bookingRoom.findMany({
             include: {
-                BookingDetail: true,
-                Users: true,
-                Room: true,
+                Users: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        phone: true,
+                    }
+                },
+                Room: {
+                    select: {
+                        id: true,
+                        nameRoom: true,
+                        price: true
+                    }
+                },
             }
         });
         if (data.length !== null) {
@@ -135,35 +155,31 @@ const getAllBooking = async (req, res, next) => {
 const getBookingById = async (req, res, next) => {
     try {
         let { id } = req.params;
-        let data = await prisma.bookingRoom.findFirst({ where: { id } });
-        if (data.length !== null) {
-            successCode(res, data, "successfully")
-            next()
-        } else {
-            failCode(res, "", "Kh co du lieu")
-        }
-    } catch (err) {
-        errorCode(res, 'failure')
-    }
-}
-
-const updateBookingId = async (req, res, next) => {
-    try {
-        let { id } = req.params;
-        let { checkIn, checkOut, customer_id, room_id, note } = req.body;
-        let findId = await prisma.bookingRoom.findFirst({ where: { id: Number(id) } });
-        if (findId !== null) {
-            let dataUpdate = await prisma.bookingRoom.update({
-                where: { id: Number(id) },
-                data: { checkIn, checkOut, customer_id, room_id, note }
-            });
-            if (dataUpdate !== null) {
-                successCode(res, data, "update successfully")
-            } else {
-                failCode(res, data, "update failed")
+        let data = await prisma.bookingRoom.findFirst({
+            where: { id: Number(id) },
+            include: {
+                Users: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        phone: true,
+                    }
+                },
+                Room: {
+                    select: {
+                        id: true,
+                        nameRoom: true,
+                        price: true,
+                        location_id: true
+                    }
+                },
             }
+        });
+        if (data) {
+            successCode(res, data, "successfully")
         } else {
-            failCode(res, data, "cannot find booking room")
+            failCode(res, "false", "Kh co du lieu")
         }
     } catch (err) {
         errorCode(res, 'failure')
@@ -174,10 +190,15 @@ const deleteBooking = async (req, res, next) => {
     try {
         let { id } = req.params;
         let data = await prisma.bookingRoom.findFirst({ where: { id: Number(id) } });
-        if (data !== null) {
-            successCode(res, data, "delete successfully")
+        if (data) {
+            let deleteBooking = await prisma.bookingRoom.delete({ where: { id: Number(id) } });
+            if (deleteBooking) {
+                successCode(res, 'true', "delete successfully")
+            } else {
+                failure(res, 'false', "cannot delete booking")
+            }
         } else {
-            failure(res, data, "cannot delete booking")
+            failure(res, 'false', "cannot delete booking")
         }
     } catch (err) {
         errorCode(res, 'failure')
@@ -186,16 +207,26 @@ const deleteBooking = async (req, res, next) => {
 
 const getByIdUser = async (req, res, next) => {
     try {
-        let { idUser } = req.params;
-        let data = await prisma.booking.findMany({ 
-            where: { 
-                customer_id: Number(idUser.id) 
-            } 
+        let { id } = req.params;
+        let data = await prisma.bookingRoom.findMany({
+            where: {
+                customer_id: Number(id)
+            },
+            include: {
+                Room: {
+                    select: {
+                        id: true,
+                        nameRoom: true,
+                        numberCustomer: true,
+                        location_id: true
+                    }
+                }
+            }
         });
-        if (data.length !== null) {
+        if (data.length) {
             successCode(res, data, "successfully")
         } else {
-            failure(res, data, "cannot find booking by user")
+            failCode(res, 'false', "cannot find booking by user")
         }
     } catch (err) {
         errorCode(res, 'failure')
@@ -208,7 +239,7 @@ module.exports = {
     createBooking,
     getAllBooking,
     getBookingById,
-    updateBookingId,
     deleteBooking,
     getByIdUser,
+    updateBooking,
 }

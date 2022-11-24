@@ -7,31 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model BookingDetail {
-  id             Int         @id @default(autoincrement())
-  booking_id     Int
+model BookingRoom {
+  id             Int      @id @default(autoincrement())
+  checkIn        DateTime @db.DateTime(0)
+  checkOut       DateTime @db.DateTime(0)
+  note           String?  @db.VarChar(255)
+  created_at     DateTime @default(now()) @db.Timestamp(0)
+  customer_id    Int
+  room_id        Int
   numberCustomer Int
   adult          Int?
   child          Int?
   baby           Int?
   price          Int?
-  unit           String?     @db.VarChar(255)
-  BookingRoom    BookingRoom @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingDetail_ibfk_1")
-
-  @@index([booking_id], map: "booking_id")
-}
-
-model BookingRoom {
-  id            Int             @id @default(autoincrement())
-  checkIn       DateTime        @db.DateTime(0)
-  checkOut      DateTime        @db.DateTime(0)
-  note          String?         @db.VarChar(255)
-  created_at    DateTime        @default(now()) @db.Timestamp(0)
-  customer_id   Int
-  room_id       Int
-  Users         Users           @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_1")
-  Room          Room            @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_2")
-  BookingDetail BookingDetail[]
+  unit           String   @db.VarChar(255)
+  Users          Users    @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_1")
+  Room           Room     @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "BookingRoom_ibfk_2")
 
   @@index([customer_id], map: "customer_id")
   @@index([room_id], map: "room_id")
@@ -42,8 +33,8 @@ model Comments {
   room_id     Int?
   customer_id Int?
   datacomment String?   @db.VarChar(255)
-  created_at  DateTime? @db.Timestamp(0)
   rate        Int?
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
   Users       Users?    @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_1")
   Room        Room?     @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_2")
 
@@ -103,15 +94,18 @@ model Room {
   BookingRoom    BookingRoom[]
   Comments       Comments[]
   Image          Image[]
-  Typeroom       Typeroom?
+  Typeroom       Typeroom[]
 
   @@index([location_id], map: "location_id")
 }
 
 model Typeroom {
-  room_id  Int     @id
-  typeroom String? @db.VarChar(255)
-  Room     Room    @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Typeroom_ibfk_1")
+  id       Int    @id @default(autoincrement())
+  room_id  Int
+  typeroom String @db.VarChar(255)
+  Room     Room   @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Typeroom_ibfk_1")
+
+  @@index([room_id], map: "room_id")
 }
 
 model Users {

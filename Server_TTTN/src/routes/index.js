@@ -7,6 +7,7 @@ const routeBookingRoom = require('./routeAriBnb/routeBookingRoom');
 const { routeComment } = require('./routeAriBnb/routeComment');
 const {routeLocations} = require('./routeAriBnb/routeLocation');
 const {routeRoom} = require('./routeAriBnb/routeRoom');
+const { routeTypeRoom } = require('./routeAriBnb/routeTypeRoom');
 const {routeUser} = require('./routeAriBnb/routeUser');
 const routerMess = require('./routeSocket/routeMessages');
 
@@ -19,5 +20,6 @@ rootRoute.use("/room",routeRoom)
 rootRoute.use("/bookingRoom",routeBookingRoom);
 rootRoute.use("/comment",routeComment)
 rootRoute.use("/location",routeLocations)
+rootRoute.use("/type",routeTypeRoom)
 
 module.exports = rootRoute;

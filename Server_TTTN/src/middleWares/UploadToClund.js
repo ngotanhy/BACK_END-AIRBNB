@@ -2,11 +2,11 @@ const cloudinary = require('cloudinary').v2;
 const fs = require('fs')
 require('dotenv').config();
 
-cloudinary.config({ 
-    cloud_name: process.env.CLOUD_NAME, 
-    api_key: process.env.API_KEY, 
-    api_secret: process.env.API_SECRET 
-  });
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 module.exports = {
     uploadSingle: (file) => {
@@ -36,6 +36,11 @@ module.exports = {
                 })
         })
     },
+    
+    deletedImage: (url) => {
+        cloudinary.uploader.destroy(url, function (error, result) { console.log(result); });
+    },
+
     reSizeImage: (id, h, w) => {
         return cloudinary.url(id, {
             height: h,
@@ -44,4 +49,5 @@ module.exports = {
             format: 'jpg'
         })
     },
+
 }

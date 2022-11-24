@@ -1,22 +1,22 @@
 const {
     getByIdUser,
     deleteBooking,
-    updateBookingId,
     getBookingById,
     getAllBooking,
-    createBooking
+    createBooking,
+    updateBooking
 } = require("../../controllers/controllersAriBnb/bookingRoomController");
 
 const routeBookingRoom = require("express").Router();
 const { verifyToken } = require("../../middleWares/auth");
 
 
-routeBookingRoom.post("/", createBooking)
-routeBookingRoom.get("/getBooking", getAllBooking)
-routeBookingRoom.get("/getBooking/:id", getBookingById)
-routeBookingRoom.put("/updateBooking/:id", updateBookingId)
-routeBookingRoom.delete("/:id", deleteBooking)
-routeBookingRoom.get("/getBooking/:id", getByIdUser);
+routeBookingRoom.post("/", createBooking);
+routeBookingRoom.put("/update/:id",updateBooking);
+routeBookingRoom.get("/getBooking", getAllBooking);
+routeBookingRoom.get("/getBooking/:id", getBookingById);
+routeBookingRoom.delete("/:id", deleteBooking);
+routeBookingRoom.get("/getByIdUser/:id", getByIdUser);
 
 
 module.exports = routeBookingRoom;

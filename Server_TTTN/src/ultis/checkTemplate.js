@@ -1,4 +1,4 @@
-const moment = require("moment/moment");
+const moment = require("moment");
 
 const checkItem = (check) => {
   return check === 'true' || check === "1" || check === 1 ? true : false;
@@ -6,26 +6,62 @@ const checkItem = (check) => {
 
 // const checkEmpty=(check,currentItem,data) => {
 //   if(Number(check)>0 && check > currentItem ){
-     
+
 //   }
 // }
 
-const checkSameDay = (d1, d2) => {
-  const formatDate = "YYYY DD MM"
-  const date1 = new Date(moment(d1).format(formatDate));
-  const date2 = new Date(moment(d2).format(formatDate));
+const checkDay = (dIn, dCreIN, dOut, dCreOut) => {
+  const formatDate = "MM/DD/YYYY";
+  const date1 = moment(dIn).format(formatDate);
+  const date2 = moment(dCreIN).format(formatDate);
+  const date3 = moment(dOut).format(formatDate);
+  const date4 = moment(dCreOut).format(formatDate);
+  const currentDate = moment().format(formatDate);
 
-  if (date1.toDateString() === date2.toDateString()) {
-    console.log('✅ dates are the same day');
+//   console.log(date2);
+//   console.log(currentDate)
+// console.log(moment(date2).isAfter(currentDate, 'date'))
+
+
+  if ((moment(date2).isAfter(currentDate, 'date') || moment(date2).isSame(currentDate, 'date')) && moment(date2).isBefore(date4, 'date')) {
+    if (moment(date2).isSame(date1, 'date') && moment(date4).isSame(date3, 'date')) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
-    console.log('⛔️ dates are not the same day');
+    return false;
   }
+
 }
 
-// const check
+const checkDayValid = (dIn, dCreIN, dOut, dCreOut) => {
+  const formatDate = "MM-DD-YYYY";
+  const date1 = moment(dIn).format(formatDate);
+  const date2 = moment(dCreIN).format(formatDate);
+  const date3 = moment(dOut).format(formatDate);
+  const date4 = moment(dCreOut).format(formatDate);
+  const currentDate = moment().format(formatDate);
+  let temp = false;
+
+  if ((moment(date2).isAfter(currentDate, 'date') || moment(date2).isSame(currentDate, 'date')) && moment(date2).isBefore(date4, 'date')) {
+    if (moment(date2).isAfter(date3, 'date')) {
+      temp = true;
+    } else if (moment(date4).isBefore(date1, 'date')) {
+      temp = true;
+    } else {
+      temp = false;
+    }
+  } else {
+    temp = false;
+  }
+  return temp;
+}
+
 
 module.exports = {
-  checkSameDay,
+  checkDayValid,
+  checkDay,
   checkItem
 }
 
