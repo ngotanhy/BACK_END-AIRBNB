@@ -23,6 +23,7 @@ const getAllRoom = async (req, res, next) => {
         }
     } catch (err) {
         errorCode(res, 'failed')
+        next();
     }
 }
 
@@ -254,7 +255,12 @@ const getRoomLocation = async (req, res) => {
                 location_id: Number(id)
             },
             include: {
-                Image: true
+                Image: {
+                    select: {
+                        id: true,
+                        urlimage: true
+                    }
+                }
             }
         })
         if (data.length) {
@@ -267,6 +273,7 @@ const getRoomLocation = async (req, res) => {
         errorCode(res, "failure");
     }
 }
+
 
 module.exports = {
     getAllRoom,

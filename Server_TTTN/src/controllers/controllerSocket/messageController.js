@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { successCode, failCode, errorCode } = require("../../ultis/reponse");
 const prisma = new PrismaClient();
 
 module.exports.getMessages = async (req, res, next) => {
@@ -16,7 +17,7 @@ module.exports.getMessages = async (req, res, next) => {
         }]
       },
       orderBy: {
-        created_at: "desc"
+        created_at: "asc"
       }
     })
     const projectedMessages = messages.map((msg) => {
@@ -25,8 +26,9 @@ module.exports.getMessages = async (req, res, next) => {
         message: msg.message,
       };
     });
-    res.json(projectedMessages);
+    successCode(res, projectedMessages, "get messages successfully");
   } catch (ex) {
+    errorCode(res, 'failed to add message')
     next(ex);
   }
 };
@@ -41,9 +43,10 @@ module.exports.addMessage = async (req, res, next) => {
       message: message
     }
     const result = await prisma.messages.create({ data })
-    if (result) return res.json({ msg: "Message added successfully." });
-    else return res.json({ msg: "Failed to add message to the database" });
+    if (result) successCode(res, true, "Message added successfully.")
+    else failCode(res, false, "Failed to add message to the database");
   } catch (ex) {
+    errorCode(res, 'failed to get message')
     next(ex);
   }
 };

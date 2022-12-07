@@ -17,10 +17,11 @@ const createComment = async (req, res, next) => {
         if (data) {
             successCode(res, data, "successfully")
         } else {
-            failCode(res, 'false', "cannot create comment")
+            failCode(res, false, "cannot create comment")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -31,10 +32,11 @@ const getAllCommentByIdRoom = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {
-            failCode(res, 'false', "cannot find comment")
+            failCode(res, false, "cannot find comment")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -45,10 +47,11 @@ const getAllCommentByIdUser = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {
-            failCode(res, 'false', "cannot find comment")
+            failCode(res, false, "cannot find comment")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failure");
+        next(err);
     }
 }
 
@@ -69,18 +72,19 @@ const updateCommentById = async (req, res, next) => {
             if (update) {
                 successCode(res, update, "update successfully")
             } else {
-                failCode(res, 'false', "cannot update")
+                failCode(res, false, "cannot update")
             }
         } else {
-            failCode(res, 'false', "cannot update")
+            failCode(res, false, "cannot update")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
 const deleteComment = async (req, res, next) => {
-    try {   
+    try {
         let { id } = req.params;
         let findComment = await prisma.comments.findFirst({ where: { id: Number(id) } });
         if (findComment) {
@@ -90,14 +94,15 @@ const deleteComment = async (req, res, next) => {
                 }
             })
             if (data) {
-                successCode(res, 'true', "delete successfully")
+                successCode(res, true, "delete successfully")
             }
         }
         else {
-            failCode(res, 'false', "comment invalid")
+            failCode(res, false, "comment invalid")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failure");
+        next(err);
     }
 }
 

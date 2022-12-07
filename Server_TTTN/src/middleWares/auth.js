@@ -28,7 +28,7 @@ const verifyToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        req.userId = decoded.userId
+        req.userID = decoded.userID;
         next()
     } catch (error) {
         console.log(error)
@@ -36,4 +36,4 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-module.exports = { verifyToken,encodeToken}
+module.exports = { verifyToken, encodeToken }

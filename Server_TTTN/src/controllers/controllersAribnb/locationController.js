@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const fs = require('fs');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
 const { pagination } = require('../../ultis/Pagination');
-const {extractPublicId }=require('cloudinary-build-url')
+const { extractPublicId } = require('cloudinary-build-url')
 
 const createLocation = async (req, res, next) => {
     try {
@@ -18,11 +18,12 @@ const createLocation = async (req, res, next) => {
             if (resultData) {
                 successCode(res, resultData, "create location successfully")
             } else {
-                failCode(res, resultData, "cannot create location")
+                failCode(res, false, "cannot create location")
             }
         })
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -49,14 +50,15 @@ const updateLocation = async (req, res, next) => {
                 if (resultData) {
                     successCode(res, resultData, "create location successfully")
                 } else {
-                    failCode(res, 'false', "cannot create location")
+                    failCode(res, false, "cannot create location")
                 }
             })
         } else {
-            failCode(res, 'false', 'cannot find location')
+            failCode(res, false, 'cannot find location')
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -67,10 +69,11 @@ const deleteLocation = async (req, res, next) => {
         if (data) {
             successCode(res, data, "delete successfully")
         } else {
-            failure(res, data, "cannot delete")
+            failCode(res, false, "cannot delete")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -80,12 +83,13 @@ const getAllLocation = async (req, res, next) => {
             include: { Room: true }
         });
         if (!data.length) {
-            failCode(res, data, "cannot find")
+            failCode(res, false, "cannot find")
         } else {
             successCode(res, data, "successfully")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -99,10 +103,11 @@ const getLocationById = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find successfully");
         } else {
-            failCode(res, data, "cannot find");
+            failCode(res, false, "cannot find");
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -117,10 +122,11 @@ const getPaginationLocation = async (req, res, next) => {
                 successCode(res, results, "find successfully");
             }
         } else {
-            failCode(res, "false", "cannot find")
+            failCode(res, false, "cannot find")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 

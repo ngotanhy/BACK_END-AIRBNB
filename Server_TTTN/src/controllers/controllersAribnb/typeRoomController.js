@@ -27,10 +27,11 @@ const getTypeRoomByName = async (req, res, next) => {
         if (data.length) {
             successCode(res, data, "find successfully")
         } else {
-            failCode(res, "false", "cannot find")
+            failCode(res, false, "cannot find")
         }
     } catch (err) {
         errorCode(res, "failure")
+        next(err);
     }
 }
 
@@ -41,10 +42,11 @@ const getAllTypes = async (req, res, next) => {
             successCode(res, data, 'find successfully');
             next()
         } else {
-            failCode(res, 'false', 'cannot find')
+            failCode(res, false, 'cannot find')
         }
     } catch (err) {
         errorCode(res, "failure");
+        next(err);
     }
 }
 

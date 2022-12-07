@@ -43,16 +43,17 @@ const createBooking = async (req, res, next) => {
                     }
                 })
                 if (data) {
-                    successCode(res, 'true', "create booking room successfully");
+                    successCode(res, true, "create booking room successfully");
                 }
             } else {
-                failCode(res, "false", "CheckIn Or CheckOut invalid ")
+                failCode(res, false, "CheckIn Or CheckOut invalid ")
             }
         } else {
-            failCode(res, 'false', "cannot create booking");
+            failCode(res, false, "cannot create booking");
         }
     } catch (err) {
         errorCode(res, "failed")
+        next(err);
     }
 }
 
@@ -105,19 +106,20 @@ const updateBooking = async (req, res, next) => {
                     }
                 });
                 if (data) {
-                    successCode(res, 'true', "update booking successfully")
+                    successCode(res, true, "update booking successfully")
                 } else {
-                    failCode(res, 'false', "Cannot update booking");
+                    failCode(res, false, "Cannot update booking");
                 }
             } else {
-                failCode(res, 'false', "CheckIn Or CheckOut invalid");
+                failCode(res, false, "CheckIn Or CheckOut invalid");
             }
 
         } else {
-            failCode(res, 'false', "Cannot find booking");
+            failCode(res, false, "Cannot find booking");
         }
     } catch (err) {
         errorCode(res, "failed")
+        next(err);
     }
 }
 
@@ -145,10 +147,11 @@ const getAllBooking = async (req, res, next) => {
         if (data.length !== null) {
             successCode(res, data, "successfully")
         } else {
-            failCode(res, "", "Kh co du lieu")
+            failCode(res, false, "Kh co du lieu")
         }
     } catch (err) {
         errorCode(res, 'failure')
+        next(err);
     }
 }
 
@@ -179,10 +182,11 @@ const getBookingById = async (req, res, next) => {
         if (data) {
             successCode(res, data, "successfully")
         } else {
-            failCode(res, "false", "Kh co du lieu")
+            failCode(res, false, "Kh co du lieu")
         }
     } catch (err) {
         errorCode(res, 'failure')
+        next(err);
     }
 }
 
@@ -193,15 +197,16 @@ const deleteBooking = async (req, res, next) => {
         if (data) {
             let deleteBooking = await prisma.bookingRoom.delete({ where: { id: Number(id) } });
             if (deleteBooking) {
-                successCode(res, 'true', "delete successfully")
+                successCode(res, true, "delete successfully")
             } else {
-                failure(res, 'false', "cannot delete booking")
+                failure(res, false, "cannot delete booking")
             }
         } else {
-            failure(res, 'false', "cannot delete booking")
+            failure(res, false, "cannot delete booking")
         }
     } catch (err) {
         errorCode(res, 'failure')
+        next(err);
     }
 }
 
@@ -226,10 +231,11 @@ const getByIdUser = async (req, res, next) => {
         if (data.length) {
             successCode(res, data, "successfully")
         } else {
-            failCode(res, 'false', "cannot find booking by user")
+            failCode(res, false, "cannot find booking by user")
         }
     } catch (err) {
         errorCode(res, 'failure')
+        next(err);
     }
 }
 
