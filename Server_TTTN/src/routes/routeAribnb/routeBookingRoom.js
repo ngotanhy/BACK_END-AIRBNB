@@ -11,12 +11,12 @@ const routeBookingRoom = require("express").Router();
 const { verifyToken } = require("../../middleWares/auth");
 
 
-routeBookingRoom.post("/", createBooking);
-routeBookingRoom.put("/update/:id",updateBooking);
-routeBookingRoom.get("/getBooking", getAllBooking);
-routeBookingRoom.get("/getBooking/:id", getBookingById);
-routeBookingRoom.delete("/:id", deleteBooking);
-routeBookingRoom.get("/getByIdUser/:id", getByIdUser);
+routeBookingRoom.post("/",verifyToken, createBooking);
+routeBookingRoom.put("/update/:id",verifyToken,updateBooking);
+routeBookingRoom.get("/getBooking",verifyToken, getAllBooking);
+routeBookingRoom.get("/getBooking/:id",verifyToken, getBookingById);
+routeBookingRoom.delete("/:id",verifyToken, deleteBooking);
+routeBookingRoom.get("/getByIdUser/:id",verifyToken, getByIdUser);
 
 
-module.exports = routeBookingRoom;
+module.exports = {routeBookingRoom};

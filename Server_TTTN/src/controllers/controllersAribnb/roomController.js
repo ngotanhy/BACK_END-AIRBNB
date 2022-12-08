@@ -1,9 +1,10 @@
 const { errorCode, successCode, failCode } = require('../../ultis/reponse')
 const fs = require('fs');
 let { PrismaClient } = require('@prisma/client');
-const { uploadSingle } = require('../../models/ModelCloudinary');
+const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
 const { checkItem } = require('../../ultis/checkTemplate');
 const { pagination } = require('../../ultis/Pagination');
+const { extractPublicId } = require('cloudinary-build-url');
 const prisma = new PrismaClient()
 
 
@@ -12,14 +13,14 @@ const getAllRoom = async (req, res, next) => {
         let data = await prisma.room.findMany({
             include: {
                 Location: true,
-                Typeroom: true,
+                Typeroom: { select: { id: true, typeroom: true } },
+                Image: { select: { urlimage: true } }
             }
         });
-        if (data.length !== 0) {
-            console.log('a');
-            successCode(res, data, "Thanh cong")
+        if (data.length !== null) {
+            successCode(res, data, "successfully")
         } else {
-            failCode(res, data, "Khong co phong")
+            failCode(res, data, "not data")
         }
     } catch (err) {
         errorCode(res, 'failed')
@@ -76,12 +77,12 @@ const createRoom = async (req, res, next) => {
                 data
             });
             if (dataRoom) {
-                successCode(res, dataRoom, "Them thanh cong");
+                successCode(res, dataRoom, "create successfully");
             } else {
-                failCode(res, dataRoom, "cannot create room");
+                failCode(res, dataRoom, "not data");
             }
         } else {
-            failCode(res, " ", "room is isValid")
+            failCode(res, false, "room is isValid")
         }
     } catch (err) {
         errorCode(res, 'failed')
@@ -134,13 +135,13 @@ const updateRoom = async (req, res, next) => {
             if (updateRoom) {
                 successCode(res, updateRoom, 'update successfully')
             } else {
-                failCode(res, "false", "update available")
+                failCode(res, false, "update available")
             }
         } else {
-            failCode(res, "false", "cannot find room")
+            failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
     }
 }
 
@@ -151,18 +152,14 @@ const getRoomById = async (req, res, next) => {
             where: { id: Number(id) },
             include: {
                 Location: true,
-                Typeroom: true,
-                Image: {
-                    select: {
-                        urlimage: true,
-                    }
-                }
+                Typeroom: { select: { id: true, typeroom: true } },
+                Image: { select: { urlimage: true } }
             },
         });
         if (data) {
-            successCode(res, data, "thanh cong")
+            successCode(res, data, "successfully")
         } else {
-            failCode(res, data, "not found")
+            failCode(res, false, "not found")
         }
     } catch (err) {
         errorCode(res, 'failed')
@@ -175,12 +172,15 @@ const getRoomByName = async (req, res, next) => {
         let data = await prisma.room.findMany({
             where: {
                 nameRoom: { contains: name }
+            },
+            include: {
+                Image: { select: { urlimage: true } }
             }
         })
         if (data.length) {
             successCode(res, data, "find successfully")
         } else {
-            failCode(res, 'false', 'cannot find name room')
+            failCode(res, false, 'not data')
         }
     } catch (err) {
         errorCode(res, 'failed')
@@ -190,6 +190,19 @@ const getRoomByName = async (req, res, next) => {
 const uploadImage = async (req, res, next) => {
     try {
         let { id } = req.params;
+        //delete url image 
+        // let checkImage = await prisma.image.findMany({
+        //     where: { room_id: Number(id) }
+        // })
+        // if (checkImage.length !== null) {
+        //     let length = checkImage.length;
+        //     for (let file = 0; file < length; file++) {
+        //         const publicId = extractPublicId(checkImage.urlimage)
+        //         await deletedImage((publicId)).then((result) => {
+        //             console.log(result);
+        //         });
+        //     }
+        // }
         let arrUrlImages = [];
         await (async () => {
             let length = req.files.length;
@@ -213,17 +226,18 @@ const uploadImage = async (req, res, next) => {
         Promise.all(res_promises)
             .then(async (result) => {
                 if (result.length !== null) {
-                    successCode(res, 'ok', "upload successfully")
+                    successCode(res, true, "upload successfully")
                 } else {
-                    failCode(res, 'error', "upload failed")
+                    failCode(res, false, "upload failed")
                 }
             })
             .catch((error) => {
-                console.error('> Error>', error);
+                failCode(res, error, "upload failed")
             })
 
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
+        next(err);
     }
 }
 
@@ -231,19 +245,24 @@ const paginationRoom = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
-        let data = await prisma.room.findMany({ include: { Image: true } });
-        if (data) {
-            let result = pagination(data, page, limit);
-            if (result) {
-                successCode(res, result, "pagination successfully")
-            } else {
-                failCode(res, 'false', "fail")
+        let skip = (page - 1) * limit;
+        let data = await prisma.room.findMany({
+            skip: Number(skip),
+            take: Number(limit),
+            include: {
+                Image: {
+                    select: { id: true, urlimage: true }
+                }
             }
+        });
+        if (data) {
+            successCode(res, data, "pagination successfully")
         } else {
-            failCode(res, 'false', "cannot find all room")
+            failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed");
+        next(err);
     }
 }
 
@@ -264,13 +283,13 @@ const getRoomLocation = async (req, res) => {
             }
         })
         if (data.length) {
-            successCode(res, data, "find location successfully")
+            successCode(res, data, "find successfully")
         } else {
-            failCode(res, 'false', "cannot find location")
+            failCode(res, false, "not data")
         }
 
     } catch (err) {
-        errorCode(res, "failure");
+        errorCode(res, "failed");
     }
 }
 

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 //ma hoa du lieu token
 const encodeToken = (data) => {
-    return jwt.sign({ data }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '180s', algorithm: 'HS256' });
+    return jwt.sign({ data }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s', algorithm: 'HS256' });
 }
 
 const verifyToken = (req, res, next) => {

@@ -4,4 +4,4 @@ const routerMess = require("express").Router();
 routerMess.post("/addmsg", addMessage);
 routerMess.post("/getmsg", getMessages);
 
-module.exports = routerMess;
+module.exports = { routerMess };

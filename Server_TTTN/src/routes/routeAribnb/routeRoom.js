@@ -13,16 +13,16 @@ const upload = require("../../middleWares/UploadImage");
 
 const routeRoom = require("express").Router();
 
-routeRoom.post('/', createRoom)
-routeRoom.post('/upload_Image/:id', upload.array("image", 5), uploadImage)
-routeRoom.post('/pagination/', paginationRoom)
+routeRoom.post('/',verifyToken, createRoom)
+routeRoom.post('/upload_Image/:id',verifyToken, upload.array("image", 5), uploadImage)
+routeRoom.post('/pagination/',verifyToken, paginationRoom)
 
 routeRoom.put('/update_room/:id', updateRoom)
 
-routeRoom.get('/getAllRoom', getAllRoom)
-routeRoom.get('/getRoomById/:id', getRoomById)
-routeRoom.get('/getRoomBynName/:name',getRoomByName)
-routeRoom.get('/getRoom/locationRoom/:id', getRoomLocation)
+routeRoom.get('/getAllRoom',verifyToken, getAllRoom)
+routeRoom.get('/getRoomById/:id',verifyToken, getRoomById)
+routeRoom.get('/getRoomBynName/:name',verifyToken,getRoomByName)
+routeRoom.get('/getRoom/locationRoom/:id',verifyToken, getRoomLocation)
 
 
 module.exports = { routeRoom };

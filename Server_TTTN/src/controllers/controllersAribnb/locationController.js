@@ -22,7 +22,7 @@ const createLocation = async (req, res, next) => {
             }
         })
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }
@@ -54,10 +54,10 @@ const updateLocation = async (req, res, next) => {
                 }
             })
         } else {
-            failCode(res, false, 'cannot find location')
+            failCode(res, false, 'not data ')
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }
@@ -72,7 +72,7 @@ const deleteLocation = async (req, res, next) => {
             failCode(res, false, "cannot delete")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }
@@ -80,15 +80,15 @@ const deleteLocation = async (req, res, next) => {
 const getAllLocation = async (req, res, next) => {
     try {
         let data = await prisma.location.findMany({
-            include: { Room: true }
+            include: { Room: { select: { id: true } } }
         });
         if (!data.length) {
-            failCode(res, false, "cannot find")
+            failCode(res, false, "not data")
         } else {
             successCode(res, data, "successfully")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }
@@ -103,10 +103,10 @@ const getLocationById = async (req, res, next) => {
         if (data) {
             successCode(res, data, "find successfully");
         } else {
-            failCode(res, false, "cannot find");
+            failCode(res, false, "not data");
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }
@@ -115,17 +115,23 @@ const getPaginationLocation = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
-        let data = await prisma.location.findMany({ include: { Room: true } });
-        if (data) {
-            let results = await pagination(data, page, limit);
-            if (results) {
-                successCode(res, results, "find successfully");
+        let skip = (page - 1) * limit;
+        let data = await prisma.location.findMany({
+            skip: Number(skip),
+            take: Number(limit),
+            include: {
+                Room: {
+                    select: { id: true }
+                }
             }
+        });
+        if (data) {
+            successCode(res, data, "find successfully");
         } else {
-            failCode(res, false, "cannot find")
+            failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failure")
+        errorCode(res, "failed")
         next(err);
     }
 }

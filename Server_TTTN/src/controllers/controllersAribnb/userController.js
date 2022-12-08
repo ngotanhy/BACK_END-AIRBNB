@@ -13,10 +13,10 @@ const getUsersById = async (req, res, next) => {
     if (data !== null) {
       successCode(res, data, "find user successfully")
     } else {
-      failCode(res, false, "user undefined")
+      failCode(res, false, "not data")
     }
   } catch (err) {
-    errorCode(res, 'failCode');
+    errorCode(res, 'failed');
     next(err);
   }
 }
@@ -34,10 +34,10 @@ const getUsersByName = async (req, res, next) => {
     if (data.length !== null) {
       successCode(res, data, "find user successfully")
     } else {
-      failCode(res, false, "user undefined")
+      failCode(res, false, "not data")
     }
   } catch (err) {
-    errorCode(res, 'failCode');
+    errorCode(res, "failed");
     next(err);
   }
 }
@@ -48,10 +48,10 @@ const getAllUsers = async (req, res, next) => {
     if (data.length !== null) {
       successCode(res, data, "successfully")
     } else {
-      failCode(res, false, "user undefined")
+      failCode(res, false, "not data")
     }
   } catch (err) {
-    errorCode(res, 'failCode');
+    errorCode(res, "failed");
     next(err);
   }
 }
@@ -67,13 +67,13 @@ const deleteUser = async (req, res, next) => {
         where: { id: Number(id) }
       })
       if (data) {
-        successCode(res, 'true', "delete user successfully")
+        successCode(res, true, "delete user successfully")
       }
     } else {
-      failCode(res, false, "cannot find user")
+      failCode(res, false, "not data")
     }
   } catch (err) {
-    errorCode(res, "failure");
+    errorCode(res, "failed");
     next(err);
   }
 }
@@ -82,19 +82,18 @@ const getPaginationUsers = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
-    let data = await prisma.users.findMany();
+    let skip = (page - 1) * limit;
+    let data = await prisma.users.findMany({
+      skip: Number(skip),
+      take: Number(limit),
+    })
     if (data) {
-      const result = pagination(data, page, limit);
-      if (result) {
-        successCode(res, result, "successfully")
-      } else {
-        failCode(res, false, "unsuccessful")
-      }
+      successCode(res, data, ' successfully');
     } else {
-      failCode(res, false, "unsuccessful")
+      failCode(res, false, "not data")
     }
   } catch (err) {
-    errorCode(res, "failure");
+    errorCode(res, "failed");
     next(err);
   }
 }
@@ -107,29 +106,29 @@ const getAllUserRoleUser = async (req, res, next) => {
     if (data.length !== null) {
       successCode(res, data, "successfully")
     } else {
-      failCode(res, "kh co user", "user undefined")
+      failCode(res, false, "note data")
     }
   } catch (err) {
-    errorCode(res, 'failCode');
+    errorCode(res, "failed");
     next(err);
   }
 };
 
-const getUserAdmin = async (req, res, next) => {
-  try {
-    let data = await prisma.users.findFirst(
-      { where: { role: "ADMIN" } }
-    );
-    if (data !== null) {
-      successCode(res, data, "successfully")
-    } else {
-      failCode(res, "kh co user", "user undefined")
-    }
-  } catch (err) {
-    errorCode(res, 'failCode');
-    next(err);
-  }
-};
+// const getUserAdmin = async (req, res, next) => {
+//   try {
+//     let data = await prisma.users.findFirst(
+//       { where: { role: "ADMIN" } }
+//     );
+//     if (data !== null) {
+//       successCode(res, data, "successfully")
+//     } else {
+//       failCode(res, "kh co user", "not data")
+//     }
+//   } catch (err) {
+//     errorCode(res, "failed");
+//     next(err);
+//   }
+// };
 
 const uploadAvatar = async (req, res, next) => {
   try {
@@ -156,10 +155,10 @@ const uploadAvatar = async (req, res, next) => {
         }
       })
     } else {
-      failCode(res, false, 'cannot find user');
+      failCode(res, false, 'not data');
     }
   } catch (err) {
-    errorCode(res, 'failCode');
+    errorCode(res, "failed");
     next(err);
   }
 }
@@ -169,7 +168,7 @@ module.exports = {
   getAllUsers,
   getAllUserRoleUser,
   getUsersById,
-  getUserAdmin,
+  // getUserAdmin,
   getUsersByName,
   deleteUser,
   getPaginationUsers,
