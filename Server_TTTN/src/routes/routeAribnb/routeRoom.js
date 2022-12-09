@@ -15,14 +15,13 @@ const routeRoom = require("express").Router();
 
 routeRoom.post('/',verifyToken, createRoom)
 routeRoom.post('/upload_Image/:id',verifyToken, upload.array("image", 5), uploadImage)
-routeRoom.post('/pagination/',verifyToken, paginationRoom)
+routeRoom.put('/update_room/:id',verifyToken, updateRoom)
 
-routeRoom.put('/update_room/:id', updateRoom)
-
-routeRoom.get('/getAllRoom',verifyToken, getAllRoom)
-routeRoom.get('/getRoomById/:id',verifyToken, getRoomById)
-routeRoom.get('/getRoomBynName/:name',verifyToken,getRoomByName)
-routeRoom.get('/getRoom/locationRoom/:id',verifyToken, getRoomLocation)
+routeRoom.get('/getAllRoom', getAllRoom)
+routeRoom.get('/getRoomById/:id', getRoomById)
+routeRoom.get('/getRoomBynName/:name',getRoomByName)
+routeRoom.get('/getRoom/locationRoom/:id', getRoomLocation)
+routeRoom.post('/pagination/', paginationRoom)
 
 
 module.exports = { routeRoom };
