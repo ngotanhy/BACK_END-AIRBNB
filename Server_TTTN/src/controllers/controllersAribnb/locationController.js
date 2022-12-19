@@ -3,7 +3,6 @@ const { errorCode, successCode, failCode } = require('../../ultis/reponse');
 const prisma = new PrismaClient();
 const fs = require('fs');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
-const { pagination } = require('../../ultis/Pagination');
 const { extractPublicId } = require('cloudinary-build-url')
 
 const createLocation = async (req, res, next) => {
@@ -28,18 +27,19 @@ const createLocation = async (req, res, next) => {
 }
 
 const updateLocation = async (req, res, next) => {
-    try {
+    try {   
         let { id } = req.params;
         let { location, provine, nation } = req.body;
         let findLocation = await prisma.location.findFirst({
             where: { id: Number(id) }
         });
         if (findLocation) {
-            const publicId = extractPublicId(findLocation.image)
-            await deletedImage((publicId)).then((result) => {
-                console.log(result);
-            });
-
+            if (findLocation.image !== null) {
+                const publicId = extractPublicId(findLocation.image);
+                await deletedImage((publicId)).then((result) => {
+                    console.log(result);
+                });
+            }
             await uploadSingle(process.cwd() + '/' + req.file.path).then(async (result) => {
                 let resultData = await prisma.location.update({
                     where: { id: Number(id) },
@@ -54,7 +54,7 @@ const updateLocation = async (req, res, next) => {
                 }
             })
         } else {
-            failCode(res, false, 'not data ')
+            failCode(res, false, 'not data')
         }
     } catch (err) {
         errorCode(res, "failed")

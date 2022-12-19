@@ -2,8 +2,7 @@ const { errorCode, successCode, failCode } = require('../../ultis/reponse')
 const fs = require('fs');
 let { PrismaClient } = require('@prisma/client');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
-const { checkItem } = require('../../ultis/checkTemplate');
-const { pagination } = require('../../ultis/Pagination');
+const { checkItem, checkObjItem } = require('../../ultis/checkTemplate');
 const { extractPublicId } = require('cloudinary-build-url');
 const prisma = new PrismaClient()
 
@@ -93,41 +92,20 @@ const updateRoom = async (req, res, next) => {
     try {
         let { id } = req.params;
         let { nameRoom,
-            description,
-            price,
-            numberCustomer,
-            bedRoom,
-            bed,
-            bathRoom,
-            washing,
-            tivi,
-            iron,
-            airCondition,
-            wifi,
-            kitchen,
-            parkingCar,
-            pool,
-            location_id } = req.body;
+            description, price, numberCustomer, bedRoom,
+            bed, bathRoom, washing, tivi, iron,
+            airCondition, wifi, kitchen, parkingCar, pool, location_id } = req.body;
+        let dataUpdate = {
+            nameRoom, description,
+            price, numberCustomer, bedRoom, bed,
+            bathRoom, washing, tivi,
+            iron, airCondition, wifi, kitchen,
+            parkingCar, pool, location_id
+        }
         let findRoom = await prisma.room.findFirst({ where: { id: Number(id) } });
         if (findRoom) {
-            let data = {
-                nameRoom,
-                description,
-                price: Number(price) > 0 && Number(price) !== findRoom.price ? Number(price) : findRoom.price,
-                numberCustomer: Number(numberCustomer) > 0 && Number(numberCustomer) !== findRoom.numberCustomer ? Number(numberCustomer) : findRoom.numberCustomer,
-                bedRoom: Number(bedRoom) > 0 && Number(bedRoom) !== findRoom.bedRoom ? Number(bedRoom) : findRoom.bedRoom,
-                bed: Number(bed) > 0 && Number(bed) !== findRoom.bed ? Number(bed) : findRoom.bed,
-                bathRoom: Number(bathRoom) > 0 && Number(bathRoom) !== findRoom.bathRoom ? Number(bathRoom) : findRoom.bathRoom,
-                location_id: Number(location_id) > 0 && Number(location_id) !== findRoom.location_id ? Number(location_id) : findRoom.location_id,
-                washing: checkItem(washing),
-                tivi: checkItem(tivi),
-                iron: checkItem(iron),
-                airCondition: checkItem(airCondition),
-                wifi: checkItem(wifi),
-                parkingCar: checkItem(parkingCar),
-                pool: checkItem(pool),
-                kitchen: checkItem(kitchen),
-            }
+            let data = checkObjItem(findRoom, dataUpdate);
+            console.log(data);
             let updateRoom = await prisma.room.update({
                 where: { id: Number(id) },
                 data: data
@@ -141,7 +119,8 @@ const updateRoom = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failed");
+        next(err);
     }
 }
 
@@ -191,18 +170,25 @@ const uploadImage = async (req, res, next) => {
     try {
         let { id } = req.params;
         //delete url image 
-        // let checkImage = await prisma.image.findMany({
-        //     where: { room_id: Number(id) }
-        // })
-        // if (checkImage.length !== null) {
-        //     let length = checkImage.length;
-        //     for (let file = 0; file < length; file++) {
-        //         const publicId = extractPublicId(checkImage.urlimage)
-        //         await deletedImage((publicId)).then((result) => {
-        //             console.log(result);
-        //         });
-        //     }
-        // }
+        let checkImage = await prisma.image.findMany({
+            where: { room_id: Number(id) }
+        })
+
+        if (checkImage.length !== null) {
+            let res_dele = checkImage.map(item => new Promise((resolve, reject) => {
+                const publicId = extractPublicId(item.urlimage)
+                deletedImage((publicId)).then((result) => {
+                    resolve(result);
+                });
+            }));
+            Promise.all(res_dele).then((result) => {
+                console.log(result,'ok');
+            }).catch((err) => {
+                console.log('error: ' + err);
+            })
+        }
+
+
         let arrUrlImages = [];
         await (async () => {
             let length = req.files.length;
@@ -213,6 +199,7 @@ const uploadImage = async (req, res, next) => {
                 })
             }
         })();
+
         let res_promises = arrUrlImages.map(filePath => new Promise((resolve, reject) => {
             prisma.image.create({
                 data: {
@@ -223,6 +210,7 @@ const uploadImage = async (req, res, next) => {
                 resolve(result);
             })
         }))
+        
         Promise.all(res_promises)
             .then(async (result) => {
                 if (result.length !== null) {

@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { successCode, failCode, errorCode } = require("../../ultis/reponse");
 const prisma = new PrismaClient();
-const nodemailer = require('nodemailer');
 const { encodeToken } = require("../../middleWares/auth");
 const jwt_decode = require('jwt-decode');
 const bcrypt = require("bcrypt");

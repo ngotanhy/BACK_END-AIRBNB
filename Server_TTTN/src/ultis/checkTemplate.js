@@ -4,6 +4,26 @@ const checkItem = (check) => {
   return check === 'true' || check === "1" || check === 1 ? true : false;
 }
 
+
+const checkObjItem = (object, item) => {
+  for (let i in object) {
+    if (i !== 'id') {
+      let temp = object[i];
+      if (item[i] !== undefined && item[i] !== null && Boolean(item[i])) {
+        if (item[i] === 'true' || item[i] === 'false') {
+          temp = checkItem(item[i]);
+          object[i] = temp;
+        } else if (Number(item[i]) >= 0) {
+          object[i] = Number(item[i]);
+        } else {
+          object[i] = item[i];
+        }
+      }
+    }
+  }
+  return object;
+}
+
 // const checkEmpty=(check,currentItem,data) => {
 //   if(Number(check)>0 && check > currentItem ){
 
@@ -18,9 +38,9 @@ const checkDay = (dIn, dCreIN, dOut, dCreOut) => {
   const date4 = moment(dCreOut).format(formatDate);
   const currentDate = moment().format(formatDate);
 
-//   console.log(date2);
-//   console.log(currentDate)
-// console.log(moment(date2).isAfter(currentDate, 'date'))
+  //   console.log(date2);
+  //   console.log(currentDate)
+  // console.log(moment(date2).isAfter(currentDate, 'date'))
 
 
   if ((moment(date2).isAfter(currentDate, 'date') || moment(date2).isSame(currentDate, 'date')) && moment(date2).isBefore(date4, 'date')) {
@@ -62,6 +82,7 @@ const checkDayValid = (dIn, dCreIN, dOut, dCreOut) => {
 module.exports = {
   checkDayValid,
   checkDay,
-  checkItem
+  checkItem,
+  checkObjItem
 }
 
