@@ -115,6 +115,7 @@ CREATE TABLE `Users` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `birthday` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `avatar` longtext,
+  `isRemove` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password` (`password`)

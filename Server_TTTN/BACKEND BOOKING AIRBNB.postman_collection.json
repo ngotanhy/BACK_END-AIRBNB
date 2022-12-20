@@ -12,21 +12,11 @@
 				{
 					"name": "create user",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"TEST2001\", \r\n    \"gender\":\"true\", \r\n    \"phone\":\"09737234\", \r\n    \"email\":\"test2@gmail.com\", \r\n    \"password\":\"oke123456\", \r\n    \"role\":\"USER\", \r\n    \"birthday\":\"1/12/2002\" \r\n}",
+							"raw": "{\r\n    \"username\":\"TEST23\", \r\n    \"gender\":\"false\", \r\n    \"phone\":\"09737234\", \r\n    \"email\":\"test23@gmail.com\", \r\n    \"password\":\"oke123456\", \r\n    \"role\":\"ADMIN\", \r\n    \"birthday\":\"1/12/2002\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,16 +40,6 @@
 				{
 					"name": "login user",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -88,6 +68,16 @@
 				{
 					"name": "get all users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6IkhVWTIwMDFodXkyMDAxQGdtYWlsLmNvbSIsInJvbGUiOmZhbHNlfSwiaWF0IjoxNjcxNTQ2NTE0LCJleHAiOjE2NzE1NTAxMTR9.PfzMtn_DCki6Y2AlUdgIIULnx2FdBxHT4leUVZPrcgU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -106,17 +96,27 @@
 				{
 					"name": "get all user role user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/users/role",
+							"raw": "{{domainTTTN}}/api/users/role_user",
 							"host": [
 								"{{domainTTTN}}"
 							],
 							"path": [
 								"api",
 								"users",
-								"role"
+								"role_user"
 							]
 						}
 					},
@@ -125,6 +125,16 @@
 				{
 					"name": "get user by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -144,10 +154,20 @@
 				{
 					"name": "get user by name",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/users/getUserByName/hy",
+							"raw": "{{domainTTTN}}/api/users/getUserByName/ngo",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -155,7 +175,7 @@
 								"api",
 								"users",
 								"getUserByName",
-								"hy"
+								"ngo"
 							]
 						}
 					},
@@ -164,10 +184,20 @@
 				{
 					"name": "delete user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1NDgxNTQsImV4cCI6MTY3MTU1MTc1NH0.swU3PYasGhmqN6vUpCKExM-gr-wys_vmwPnPdMsXhfA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/users/deleteUser/21",
+							"raw": "{{domainTTTN}}/api/users/deleteUser/13",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -175,7 +205,7 @@
 								"api",
 								"users",
 								"deleteUser",
-								"21"
+								"13"
 							]
 						}
 					},
@@ -184,10 +214,20 @@
 				{
 					"name": "pagination user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "    let genderConvert = (gender === \"true\" || gender === true ? true : false);\n",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/users/paginationUsers?page=2&limit=3",
+							"raw": "{{domainTTTN}}/api/users/paginationUsers?page=3&limit=4",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -199,11 +239,11 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "2"
+									"value": "3"
 								},
 								{
 									"key": "limit",
-									"value": "3"
+									"value": "4"
 								}
 							]
 						}
@@ -213,6 +253,16 @@
 				{
 					"name": "upload avatar",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -221,7 +271,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/278730105_2229382057201121_8485512707498039236_n.jpg"
+									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/architecture-01-1649128484.jpg"
 								}
 							]
 						},
@@ -235,6 +285,45 @@
 								"users",
 								"upload",
 								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change role user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1NDcxMDIsImV4cCI6MTY3MTU1MDcwMn0.aQs7_jtthWJ_aEWYKD0eP1TdT4p0PAXdzVNQ4OGp-0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\":\"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domainTTTN}}/api/users/role_change/19",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"role_change",
+								"19"
 							]
 						}
 					},
@@ -312,16 +401,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ5ODM2OCwiZXhwIjoxNjcwNTAxOTY4fQ.He9cRcvQluDp8BSnW5PC8lz_mNVhFrg4sx7Biy9Ct5w",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -350,7 +429,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQzNDM0NiwiZXhwIjoxNjcxNDM3OTQ2fQ.OWAPOM5dIoYlecYRKr1YMf5e7pGgnqJPJe4MdGVFR_g",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
 									"type": "string"
 								}
 							]
@@ -388,7 +467,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{domainTTTN}}/api/room/upload_Image/12",
+							"raw": "{{domainTTTN}}/api/room/upload_Image/17",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -396,7 +475,7 @@
 								"api",
 								"room",
 								"upload_Image",
-								"12"
+								"17"
 							]
 						}
 					},
@@ -405,11 +484,21 @@
 				{
 					"name": "create room",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzU4MDMsImV4cCI6MTY3MTUzOTQwM30.PLZNyQgHBI3cd5OuoYEqFir2j9FToEItR4WsJ6Hut_U",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n            \"nameRoom\":\"test5\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"5\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"1\",\r\n            \"kitchen\":\"true\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"1\",\r\n            \"location_id\":\"6\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
+							"raw": "{\r\n            \"nameRoom\":\"test22\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"10\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"2\",\r\n            \"kitchen\":\"true\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"1\",\r\n            \"location_id\":\"6\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -433,9 +522,6 @@
 				{
 					"name": "get room by id",
 					"request": {
-						"auth": {
-							"type": "basic"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -459,7 +545,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/room/pagination?page=1&limit=7",
+							"raw": "{{domainTTTN}}/api/room/pagination?page=2&limit=2",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -471,11 +557,11 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "2"
 								},
 								{
 									"key": "limit",
-									"value": "7"
+									"value": "2"
 								}
 							]
 						}
@@ -511,7 +597,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQzMDc3NCwiZXhwIjoxNjcxNDM0Mzc0fQ.VwgX9Hb_zLAWz2LcKy1JZH2WwCGhMnXmbCo6aPHsNZM",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
 									"type": "string"
 								}
 							]
@@ -520,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n            \"nameRoom\":\"test\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"20\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"4\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
+							"raw": "{\r\n            \"nameRoom\":\"test21\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"20\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"4\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -528,7 +614,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{domainTTTN}}/api/room/update_room/2",
+							"raw": "{{domainTTTN}}/api/room/update_room/21",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -536,7 +622,7 @@
 								"api",
 								"room",
 								"update_room",
-								"2"
+								"21"
 							]
 						}
 					},
@@ -545,16 +631,6 @@
 				{
 					"name": "get room by name",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ5ODM2OCwiZXhwIjoxNjcwNTAxOTY4fQ.He9cRcvQluDp8BSnW5PC8lz_mNVhFrg4sx7Biy9Ct5w",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -567,6 +643,36 @@
 								"room",
 								"getRoomBynName",
 								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/delete_room/21",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"delete_room",
+								"21"
 							]
 						}
 					},
@@ -585,7 +691,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Imh5QGdtYWlsLmNvbWh5QGdtYWlsLmNvbSIsImFkbWluIjpmYWxzZX0sImlhdCI6MTY2OTUyOTYzNiwiZXhwIjoxNjY5NTI5ODE2fQ.0BcP5jULDz46rIKZil42C64bk9338jhYLX3lkh_f428",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
 									"type": "string"
 								}
 							]
@@ -609,10 +715,20 @@
 				{
 					"name": "get booking room by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/bookingRoom/getBooking/19",
+							"raw": "{{domainTTTN}}/api/bookingRoom/getBooking/3",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -620,7 +736,7 @@
 								"api",
 								"bookingRoom",
 								"getBooking",
-								"19"
+								"3"
 							]
 						}
 					},
@@ -629,11 +745,21 @@
 				{
 					"name": "create booking",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"checkIn\":\"2022-11-1 23:59:59\",\r\n    \"checkOut\":\"2022-11-1 23:59:59\", \r\n    \"customer_id\":\"5\", \r\n    \"room_id\":\"3\", \r\n    \"note\":\"chua thanh toan\", \r\n    \"numberCustomer\":\"3\",\r\n    \"price\":\"1000\", \r\n    \"adult\":\"2\",\r\n    \"baby\":\"1\", \r\n    \"child\":\"\", \r\n    \"unit\":\"Do\"\r\n}",
+							"raw": "{\r\n    \"checkIn\":\"2023-3-10 23:59:59\",\r\n    \"checkOut\":\"2023-3-14 23:59:59\", \r\n    \"customer_id\":\"5\", \r\n    \"room_id\":\"3\", \r\n    \"note\":\"chua thanh toan\", \r\n    \"numberCustomer\":\"3\",\r\n    \"price\":\"1000\", \r\n    \"adult\":\"2\",\r\n    \"baby\":\"1\", \r\n    \"child\":\"\", \r\n    \"unit\":\"Do\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -657,11 +783,21 @@
 				{
 					"name": "update booking",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"checkIn\":\"2022-12-04 23:59:59\",\r\n    \"checkOut\":\"2022-12-06 23:59:59\", \r\n    \"customer_id\":\"5\", \r\n    \"room_id\":\"3\", \r\n    \"note\":\"chua thanh toan\", \r\n    \"numberCustomer\":\"3\",\r\n    \"price\":\"1000\", \r\n    \"adult\":\"2\",\r\n    \"baby\":\"1\", \r\n    \"child\":\"\", \r\n    \"unit\":\"Do\"\r\n}",
+							"raw": "{\r\n    \"checkIn\":\"2023-03-10 23:59:59\",\r\n    \"checkOut\":\"2023-03-14 23:59:59\", \r\n    \"customer_id\":\"5\", \r\n    \"room_id\":\"3\", \r\n    \"note\":\"thanh toan\", \r\n    \"numberCustomer\":\"3\",\r\n    \"price\":\"1000\", \r\n    \"adult\":\"2\",\r\n    \"baby\":\"1\", \r\n    \"child\":\"\", \r\n    \"unit\":\"Do\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -669,7 +805,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{domainTTTN}}/api/bookingRoom/update/19",
+							"raw": "{{domainTTTN}}/api/bookingRoom/update/15",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -677,7 +813,7 @@
 								"api",
 								"bookingRoom",
 								"update",
-								"19"
+								"15"
 							]
 						}
 					},
@@ -686,10 +822,20 @@
 				{
 					"name": "get booking by id user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/bookingRoom/getByIdUser/5",
+							"raw": "{{domainTTTN}}/api/bookingRoom/getByIdUser/120",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -697,7 +843,7 @@
 								"api",
 								"bookingRoom",
 								"getByIdUser",
-								"5"
+								"120"
 							]
 						}
 					},
@@ -711,10 +857,20 @@
 				{
 					"name": "get all comment by user",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/comment/getCommentUser/2",
+							"raw": "{{domainTTTN}}/api/comment/getCommentUser/5",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -722,7 +878,7 @@
 								"api",
 								"comment",
 								"getCommentUser",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -744,7 +900,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/comment/getCommentRoom/5",
+							"raw": "{{domainTTTN}}/api/comment/getCommentRoom/11",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -752,7 +908,7 @@
 								"api",
 								"comment",
 								"getCommentRoom",
-								"5"
+								"11"
 							]
 						}
 					},
@@ -761,6 +917,16 @@
 				{
 					"name": "create comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -793,7 +959,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"datacomment\":\"update\", \r\n    \"rate\":\"\"\r\n}",
+							"raw": "{\r\n    \"datacomment\":\"update hi\", \r\n    \"rate\":\"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -801,7 +967,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{domainTTTN}}/api/comment/updateComment/1",
+							"raw": "{{domainTTTN}}/api/comment/updateComment/12",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -809,7 +975,7 @@
 								"api",
 								"comment",
 								"updateComment",
-								"1"
+								"12"
 							]
 						}
 					},
@@ -818,10 +984,20 @@
 				{
 					"name": "delete comment",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/comment/deleteComment/1",
+							"raw": "{{domainTTTN}}/api/comment/deleteComment/12",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -829,7 +1005,7 @@
 								"api",
 								"comment",
 								"deleteComment",
-								"1"
+								"12"
 							]
 						}
 					},
@@ -843,6 +1019,16 @@
 				{
 					"name": "create location",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -850,23 +1036,23 @@
 							"formdata": [
 								{
 									"key": "location",
-									"value": "test2",
+									"value": "test5",
 									"type": "text"
 								},
 								{
 									"key": "nation",
-									"value": "test4",
+									"value": "test6",
 									"type": "text"
 								},
 								{
 									"key": "provine",
-									"value": "test4",
+									"value": "test6",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/Screenshot 2022-10-17 085803.png"
+									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/ho-con-rua-1.jpg"
 								}
 							]
 						},
@@ -887,16 +1073,6 @@
 				{
 					"name": "get all location",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6IkhVWTIwMDFodXkyMDAxQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6ZmFsc2V9LCJpYXQiOjE2NzA0ODE0NDksImV4cCI6MTY3MDQ4MTYyOX0.R4fDl7HUfKMvsKxqgGPgtWeDBvGQtFmqdcjWFK0oo6Y",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -916,10 +1092,20 @@
 				{
 					"name": "delete location",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/location/deleteLocation/10",
+							"raw": "{{domainTTTN}}/api/location/deleteLocation/22",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -927,7 +1113,7 @@
 								"api",
 								"location",
 								"deleteLocation",
-								"10"
+								"22"
 							]
 						}
 					},
@@ -936,16 +1122,6 @@
 				{
 					"name": "getLocationById",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ4MTQ4MSwiZXhwIjoxNjcwNDgxNjYxfQ.cAIfGy5n6PetmIL_1Js7vgQcll-o9-LELXGSKybcvqE",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1000,7 +1176,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQyOTkzNywiZXhwIjoxNjcxNDMzNTM3fQ.H_DHhdHzE4WvnRQLevuFPXibG9KhXACa9m9HnbjSgmY",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
 									"type": "string"
 								}
 							]
@@ -1086,6 +1262,112 @@
 								"api",
 								"type",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create type room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idRoom\":\"20\",\r\n    \"typeRoom\":\"homestay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domainTTTN}}/api/type",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"type"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete type room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/type/delete_type/16",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"type",
+								"delete_type",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update type room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzQ1MjAsImV4cCI6MTY3MTUzODEyMH0.ixyttSApgMUUlUwi0foDOfr1S3rSvf0hCa1EYGx4I9M",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeRoom\":\"hotel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domainTTTN}}/api/type/update_type/10",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"type",
+								"update_type",
+								"10"
 							]
 						}
 					},
