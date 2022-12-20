@@ -33,8 +33,8 @@ model Comments {
   room_id     Int?
   customer_id Int?
   datacomment String?   @db.VarChar(255)
-  created_at  DateTime? @db.Timestamp(0)
   rate        Int?
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
   Users       Users?    @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_1")
   Room        Room?     @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Comments_ibfk_2")
 
@@ -90,10 +90,10 @@ model Room {
   parkingCar     Boolean?
   pool           Boolean?
   location_id    Int
-  Location       Location      @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Room_ibfk_1")
   BookingRoom    BookingRoom[]
   Comments       Comments[]
   Image          Image[]
+  Location       Location      @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Room_ibfk_1")
   Typeroom       Typeroom[]
 
   @@index([location_id], map: "location_id")
@@ -119,6 +119,7 @@ model Users {
   created_at  DateTime      @default(now()) @db.Timestamp(0)
   birthday    String?       @db.VarChar(255)
   avatar      String?       @db.LongText
+  isRemove    Boolean
   BookingRoom BookingRoom[]
   Comments    Comments[]
   Messages    Messages[]

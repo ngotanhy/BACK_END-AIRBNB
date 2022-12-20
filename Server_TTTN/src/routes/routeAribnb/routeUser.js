@@ -7,18 +7,25 @@ const {
     deleteUser,
     getPaginationUsers,
     uploadAvatar,
+    changeRole,
+    updateUser,
 } = require("../../controllers/controllersAriBnb/userController");
-const { verifyToken } = require("../../middleWares/auth");
+const { verifyToken, verifyTokenAdmin } = require("../../middleWares/auth");
 const upload = require("../../middleWares/UploadImage");
 const routeUser = require("express").Router();
 
-routeUser.get("/", verifyToken, getAllUsers);
-routeUser.get("/:id", verifyToken, getUsersById);
-routeUser.get("/getUserByName/:name", verifyToken, getUsersByName);
+routeUser.get("/", verifyTokenAdmin, getAllUsers);
+routeUser.get("/:id", verifyTokenAdmin, getUsersById);
+routeUser.get("/getUserByName/:name", verifyTokenAdmin, getUsersByName);
+routeUser.post("/paginationUsers",verifyTokenAdmin , getPaginationUsers);
+routeUser.post("/role_user", verifyTokenAdmin, getAllUserRoleUser);
+routeUser.post("/role_change/:id",verifyTokenAdmin,changeRole);
+
+
 routeUser.delete("/deleteUser/:id", verifyToken, deleteUser);
-routeUser.post("/paginationUsers", verifyToken, getPaginationUsers);
-routeUser.post("/role", verifyToken, getAllUserRoleUser);
-routeUser.post("/upload/:id", verifyToken, upload.single('image'), uploadAvatar)
+routeUser.post("/upload/:id", verifyToken, upload.single('image'), uploadAvatar);
+routeUser.put("/update_user/:id",verifyToken, updateUser);
+
 // routeUser.post("/role_admin",verifyToken, getUserAdmin);
 
 

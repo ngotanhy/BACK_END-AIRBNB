@@ -22,7 +22,7 @@ const createLocation = async (req, res, next) => {
             }
         })
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -58,7 +58,7 @@ const updateLocation = async (req, res, next) => {
             failCode(res, false, 'not data')
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -66,14 +66,14 @@ const updateLocation = async (req, res, next) => {
 const deleteLocation = async (req, res, next) => {
     try {
         let { id } = req.params;
-        let data = await prisma.location.delete({ where: { id: Number(id) } });
+        let data = await prisma.location.findFirst({ where: { id: Number(id) },include:{Room:true} });
         if (data) {
             successCode(res, data, "delete successfully")
         } else {
             failCode(res, false, "cannot delete")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -89,7 +89,7 @@ const getAllLocation = async (req, res, next) => {
             successCode(res, data, "successfully")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -107,7 +107,7 @@ const getLocationById = async (req, res, next) => {
             failCode(res, false, "not data");
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -132,7 +132,7 @@ const getPaginationLocation = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }

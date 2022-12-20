@@ -1,7 +1,7 @@
 const moment = require("moment");
 
 const checkItem = (check) => {
-  return check === 'true' || check === "1" || check === 1 ? true : false;
+  return check === 'true' || check === "1" || check === 1 || check === true ? true : false;
 }
 
 const checkObjItem = (object, item) => {

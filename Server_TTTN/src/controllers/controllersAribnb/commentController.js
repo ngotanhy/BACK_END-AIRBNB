@@ -20,7 +20,7 @@ const createComment = async (req, res, next) => {
             failCode(res, false, "cannot create comment")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -35,7 +35,7 @@ const getAllCommentByIdRoom = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -50,7 +50,7 @@ const getAllCommentByIdUser = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed");
+        errorCode(res, "failure");
         next(err);
     }
 }
@@ -78,7 +78,7 @@ const updateCommentById = async (req, res, next) => {
             failCode(res, false, "cannot update")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -101,7 +101,7 @@ const deleteComment = async (req, res, next) => {
             failCode(res, false, "comment invalid")
         }
     } catch (err) {
-        errorCode(res, "failed");
+        errorCode(res, "failure");
         next(err);
     }
 }

@@ -26,7 +26,7 @@ const register = async (req, res, next) => {
       next()
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
-      let genderConvert = (gender === "true" ? true : false);
+      let genderConvert = (gender === "true" || gender === true ? true : false);
       let Role = 'USER';
       const authHeader = req.header('Authorization');
       if (authHeader) {
@@ -34,7 +34,7 @@ const register = async (req, res, next) => {
         if (token) {
           let { data } = jwt_decode(token, { data: true });
           let checkAdmin = data ? data.role : false;
-          let checkRole= role;
+          let checkRole = role;
           if (data.role) {
             if (checkRole !== "USER" && checkRole !== "ADMIN") {
               checkRole = "USER";
@@ -43,7 +43,11 @@ const register = async (req, res, next) => {
           Role = checkAdmin ? checkRole : "USER";
         }
       }
-      let dataCreate = { username, gender: genderConvert, phone, email, password: hashedPassword, birthday, role: Role }
+      let dataCreate = { username, gender: genderConvert, 
+        phone, email, 
+        password: hashedPassword, birthday, 
+        role: Role.toUpperCase(), isRemove: true 
+      }
       let useCreate = await prisma.users.create({ data: dataCreate });
       if (useCreate) {
         successCode(res, { ...useCreate, password: password }, "create user successfully");
@@ -60,11 +64,15 @@ const singIn = async (req, res, next) => {
     const { email, password } = req.body;
     let UserLogin = await prisma.users.findFirst({ where: { email: email } });
     if (UserLogin) {
-      const isPasswordValid = await bcrypt.compare(password, UserLogin.password)
-      if (isPasswordValid) {
-        const accessToken = await encodeToken({ userID: UserLogin.username + UserLogin.email, role: UserLogin.role === 'ADMIN' ? true : false })
-        successCode(res, { ...UserLogin, accessToken: accessToken, password: password }, 'login successfully');
-        next()
+      if (UserLogin.isRemove) {
+        const isPasswordValid = await bcrypt.compare(password, UserLogin.password)
+        if (isPasswordValid) {
+          const accessToken = await encodeToken({ userID: UserLogin.username + UserLogin.email, role: UserLogin.role === 'ADMIN' ? true : false })
+          successCode(res, { ...UserLogin, access_token: accessToken, password: password }, 'login successfully');
+          next()
+        }
+      } else {
+        failCode(res, false, 'user expired')
       }
     } else {
       failCode(res, false, "password or email is invalid")

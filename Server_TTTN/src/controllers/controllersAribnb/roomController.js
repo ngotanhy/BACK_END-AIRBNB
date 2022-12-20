@@ -1,9 +1,9 @@
 const { errorCode, successCode, failCode } = require('../../ultis/reponse')
 const fs = require('fs');
-let { PrismaClient } = require('@prisma/client');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
 const { checkItem, checkObjItem } = require('../../ultis/checkTemplate');
 const { extractPublicId } = require('cloudinary-build-url');
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 
 
@@ -22,29 +22,21 @@ const getAllRoom = async (req, res, next) => {
             failCode(res, data, "not data")
         }
     } catch (err) {
-        errorCode(res, 'failed')
+        errorCode(res, 'failure')
         next();
     }
 }
 
 const createRoom = async (req, res, next) => {
     try {
-        let { nameRoom,
-            description,
-            price,
-            numberCustomer,
-            bedRoom,
-            bed,
-            bathRoom,
-            washing,
-            tivi,
-            iron,
-            airCondition,
-            wifi,
-            kitchen,
-            parkingCar,
-            pool,
-            location_id } = req.body;
+        let { nameRoom, description,
+            price, numberCustomer,
+            bedRoom, bed,
+            bathRoom, washing,
+            tivi, iron,
+            airCondition, wifi,
+            kitchen, parkingCar,
+            pool, location_id } = req.body;
         let checkNameRoom = await prisma.room.findFirst({
             where: {
                 nameRoom: {
@@ -55,36 +47,26 @@ const createRoom = async (req, res, next) => {
         if (!checkNameRoom) {
             let data = {
                 nameRoom,
-                description,
-                price: Number(price),
+                description, price: Number(price),
                 numberCustomer: Number(numberCustomer),
-                bedRoom: Number(bedRoom),
-                bed: Number(bed),
-                bathRoom: Number(bathRoom),
-                washing: checkItem(washing),
-                tivi: checkItem(tivi),
-                iron: checkItem(iron),
-                airCondition: checkItem(airCondition),
-                wifi: checkItem(wifi),
-                kitchen: checkItem(kitchen),
-                parkingCar: checkItem(parkingCar),
-                pool: checkItem(pool),
-                location_id: Number(location_id)
+                bedRoom: Number(bedRoom), bed: Number(bed),
+                bathRoom: Number(bathRoom), washing: checkItem(washing),
+                tivi: checkItem(tivi), iron: checkItem(iron),
+                airCondition: checkItem(airCondition), wifi: checkItem(wifi),
+                kitchen: checkItem(kitchen), parkingCar: checkItem(parkingCar),
+                pool: checkItem(pool), location_id: Number(location_id)
             }
-
-            const dataRoom = await prisma.room.create({
-                data
-            });
+            const dataRoom = await prisma.room.create({ data: data });
             if (dataRoom) {
                 successCode(res, dataRoom, "create successfully");
             } else {
-                failCode(res, dataRoom, "not data");
+                failCode(res, false, "create unsuccessfully");
             }
         } else {
             failCode(res, false, "room is isValid")
         }
     } catch (err) {
-        errorCode(res, 'failed')
+        errorCode(res, 'failure')
     }
 }
 
@@ -119,7 +101,7 @@ const updateRoom = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed");
+        errorCode(res, "failure");
         next(err);
     }
 }
@@ -141,7 +123,7 @@ const getRoomById = async (req, res, next) => {
             failCode(res, false, "not found")
         }
     } catch (err) {
-        errorCode(res, 'failed')
+        errorCode(res, 'failure')
     }
 }
 
@@ -162,7 +144,7 @@ const getRoomByName = async (req, res, next) => {
             failCode(res, false, 'not data')
         }
     } catch (err) {
-        errorCode(res, 'failed')
+        errorCode(res, 'failure')
     }
 }
 
@@ -182,7 +164,7 @@ const uploadImage = async (req, res, next) => {
                 });
             }));
             Promise.all(res_dele).then((result) => {
-                console.log(result,'ok');
+                console.log(result, 'ok');
             }).catch((err) => {
                 console.log('error: ' + err);
             })
@@ -210,21 +192,21 @@ const uploadImage = async (req, res, next) => {
                 resolve(result);
             })
         }))
-        
+
         Promise.all(res_promises)
             .then(async (result) => {
                 if (result.length !== null) {
                     successCode(res, true, "upload successfully")
                 } else {
-                    failCode(res, false, "upload failed")
+                    failCode(res, false, "upload failure")
                 }
             })
             .catch((error) => {
-                failCode(res, error, "upload failed")
+                failCode(res, error, "upload failure")
             })
 
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -249,7 +231,7 @@ const paginationRoom = async (req, res, next) => {
             failCode(res, false, "not data")
         }
     } catch (err) {
-        errorCode(res, "failed");
+        errorCode(res, "failure");
         next(err);
     }
 }
@@ -277,7 +259,31 @@ const getRoomLocation = async (req, res) => {
         }
 
     } catch (err) {
-        errorCode(res, "failed");
+        errorCode(res, "failure");
+    }
+}
+
+const deleteRoom = async (req, res, next) => {
+    try {
+        let { id } = req.params;
+        let findRoom = await prisma.room.findFirst({ where: { id: Number(id) } });
+        if (findRoom) {
+            let findType = await prisma.typeroom.findFirst({ where: { room_id: Number(findRoom.id) } });
+            if (findType) {
+                await prisma.typeroom.deleteMany({ where: { room_id: Number(findRoom.id) } });
+            }
+            let deleteRoom = await prisma.room.delete({ where: { id: Number(id) } });
+            if (deleteRoom) {
+                successCode(res, true, "delete successfully");
+            } else {
+                failCode(res, false, "delete unsuccessfully")
+            }
+        } else {
+            failCode(res, false, "not data")
+        }
+    } catch (err) {
+        errorCode(res, "failure");
+        next(err);
     }
 }
 
@@ -290,5 +296,6 @@ module.exports = {
     paginationRoom,
     getRoomLocation,
     updateRoom,
-    getRoomByName
+    getRoomByName,
+    deleteRoom
 }

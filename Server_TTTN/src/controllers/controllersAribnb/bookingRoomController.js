@@ -51,7 +51,7 @@ const createBooking = async (req, res, next) => {
             failCode(res, false, "cannot create booking");
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -117,7 +117,7 @@ const updateBooking = async (req, res, next) => {
             failCode(res, false, "Cannot find booking");
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -143,7 +143,7 @@ const updateBooking = async (req, res, next) => {
 //             failCode(res, false, 'booking invalid')
 //         }
 //     } catch (err) {
-//         errorCode(res, "failed");
+//         errorCode(res, "failure");
 //         next(err);
 //     }
 // }
@@ -175,7 +175,7 @@ const getAllBooking = async (req, res, next) => {
             failCode(res, false, "Kh co du lieu")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -210,7 +210,7 @@ const getBookingById = async (req, res, next) => {
             failCode(res, false, "No Booking")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -220,7 +220,7 @@ const deleteBooking = async (req, res, next) => {
         let { id } = req.params;
         let data = await prisma.bookingRoom.findFirst({ where: { id: Number(id) } });
         if (data) {
-            let deleteBooking = await prisma.bookingRoom.delete({ where: { id: Number(id) } });
+            let deleteBooking = await prisma.bookingRoom.delete({ where: { id: Number(data.id) } });
             if (deleteBooking) {
                 successCode(res, true, "delete successfully")
             } else {
@@ -230,7 +230,7 @@ const deleteBooking = async (req, res, next) => {
             failCode(res, false, "cannot delete booking")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
@@ -259,7 +259,7 @@ const getByIdUser = async (req, res, next) => {
             failCode(res, false, "cannot find booking by user")
         }
     } catch (err) {
-        errorCode(res, "failed")
+        errorCode(res, "failure")
         next(err);
     }
 }
