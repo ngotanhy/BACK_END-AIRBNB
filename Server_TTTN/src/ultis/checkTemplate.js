@@ -4,7 +4,6 @@ const checkItem = (check) => {
   return check === 'true' || check === "1" || check === 1 ? true : false;
 }
 
-
 const checkObjItem = (object, item) => {
   for (let i in object) {
     if (i !== 'id') {
@@ -23,12 +22,6 @@ const checkObjItem = (object, item) => {
   }
   return object;
 }
-
-// const checkEmpty=(check,currentItem,data) => {
-//   if(Number(check)>0 && check > currentItem ){
-
-//   }
-// }
 
 const checkDay = (dIn, dCreIN, dOut, dCreOut) => {
   const formatDate = "MM/DD/YYYY";
@@ -77,7 +70,6 @@ const checkDayValid = (dIn, dCreIN, dOut, dCreOut) => {
   }
   return temp;
 }
-
 
 module.exports = {
   checkDayValid,

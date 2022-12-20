@@ -5,6 +5,7 @@ const fs = require('fs');
 const { uploadSingle, deletedImage } = require('../../models/ModelCloudinary');
 const { extractPublicId } = require('cloudinary-build-url')
 
+
 const createLocation = async (req, res, next) => {
     try {
         let { location, provine, nation } = req.body;

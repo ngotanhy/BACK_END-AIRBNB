@@ -9,7 +9,20 @@ const prisma = new PrismaClient();
 const getUsersById = async (req, res, next) => {
   try {
     let { id } = req.params;
-    let data = await prisma.users.findFirst({ where: { id: Number(id) } });
+    let data = await prisma.users.findFirst({
+      where: { id: Number(id) },
+      select: {
+        id: true,
+        username: true,
+        gender: true,
+        phone: true,
+        email: true,
+        role: true,
+        created_at: true,
+        birthday: true,
+        avatar: true
+      }
+    });
     if (data !== null) {
       successCode(res, data, "find user successfully")
     } else {
@@ -29,6 +42,17 @@ const getUsersByName = async (req, res, next) => {
         username: {
           contains: name,
         }
+      },
+      select: {
+        id: true,
+        username: true,
+        gender: true,
+        phone: true,
+        email: true,
+        role: true,
+        created_at: true,
+        birthday: true,
+        avatar: true
       }
     })
     if (data.length !== null) {
@@ -44,7 +68,19 @@ const getUsersByName = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
   try {
-    let data = await prisma.users.findMany();
+    let data = await prisma.users.findMany({
+      select: {
+        id: true,
+        username: true,
+        gender: true,
+        phone: true,
+        email: true,
+        role: true,
+        created_at: true,
+        birthday: true,
+        avatar: true
+      }
+    });
     if (data.length !== null) {
       successCode(res, data, "successfully")
     } else {
@@ -86,6 +122,17 @@ const getPaginationUsers = async (req, res, next) => {
     let data = await prisma.users.findMany({
       skip: Number(skip),
       take: Number(limit),
+      select: {
+        id: true,
+        username: true,
+        gender: true,
+        phone: true,
+        email: true,
+        role: true,
+        created_at: true,
+        birthday: true,
+        avatar: true
+      }
     })
     if (data) {
       successCode(res, data, ' successfully');
@@ -101,7 +148,20 @@ const getPaginationUsers = async (req, res, next) => {
 const getAllUserRoleUser = async (req, res, next) => {
   try {
     let data = await prisma.users.findMany(
-      { where: { role: "USER" } }
+      {
+        where: { role: "USER" },
+        select: {
+          id: true,
+          username: true,
+          gender: true,
+          phone: true,
+          email: true,
+          role: true,
+          created_at: true,
+          birthday: true,
+          avatar: true
+        }
+      }
     );
     if (data.length !== null) {
       successCode(res, data, "successfully")

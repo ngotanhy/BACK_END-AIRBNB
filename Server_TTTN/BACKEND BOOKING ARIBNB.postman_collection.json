@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"huy2001@gmail.com\",\r\n    \"password\":\"huy123456\"\r\n}",
+							"raw": "{\r\n    \"email\":\"hoangpro@gmail.com\",\r\n    \"password\":\"NMhoang01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,25 +142,6 @@
 					"response": []
 				},
 				{
-					"name": "get admin",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/users/role_admin",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"role_admin"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "get user by name",
 					"request": {
 						"method": "GET",
@@ -230,7 +211,7 @@
 					"response": []
 				},
 				{
-					"name": "upload image",
+					"name": "upload avatar",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -254,34 +235,6 @@
 								"users",
 								"upload",
 								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"\",\r\n    \"password\":\"huy123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{domainTTTN}}/api/auth/reset",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"reset"
 							]
 						}
 					},
@@ -364,7 +317,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Imh5QGdtYWlsLmNvbWh5QGdtYWlsLmNvbSIsImFkbWluIjpmYWxzZX0sImlhdCI6MTY2OTUyOTYzNiwiZXhwIjoxNjY5NTI5ODE2fQ.0BcP5jULDz46rIKZil42C64bk9338jhYLX3lkh_f428",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ5ODM2OCwiZXhwIjoxNjcwNTAxOTY4fQ.He9cRcvQluDp8BSnW5PC8lz_mNVhFrg4sx7Biy9Ct5w",
 									"type": "string"
 								}
 							]
@@ -392,6 +345,16 @@
 				{
 					"name": "upload image room",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQzNDM0NiwiZXhwIjoxNjcxNDM3OTQ2fQ.OWAPOM5dIoYlecYRKr1YMf5e7pGgnqJPJe4MdGVFR_g",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -405,12 +368,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (4).jpg"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (3).jpg"
+									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (1).jpg"
 								},
 								{
 									"key": "image",
@@ -420,7 +378,12 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (1).jpg"
+									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (3).jpg"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive - ut.edu.vn/Desktop/vai thư tao lao/download (4).jpg"
 								}
 							]
 						},
@@ -543,11 +506,21 @@
 				{
 					"name": "update room",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQzMDc3NCwiZXhwIjoxNjcxNDM0Mzc0fQ.VwgX9Hb_zLAWz2LcKy1JZH2WwCGhMnXmbCo6aPHsNZM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n            \"nameRoom\":\"test5\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"0\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"6\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
+							"raw": "{\r\n            \"nameRoom\":\"test\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"20\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"4\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -572,10 +545,20 @@
 				{
 					"name": "get room by name",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ5ODM2OCwiZXhwIjoxNjcwNTAxOTY4fQ.He9cRcvQluDp8BSnW5PC8lz_mNVhFrg4sx7Biy9Ct5w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/room/getRoomBynName/ngo",
+							"raw": "{{domainTTTN}}/api/room/getRoomBynName/test",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -583,7 +566,7 @@
 								"api",
 								"room",
 								"getRoomBynName",
-								"ngo"
+								"test"
 							]
 						}
 					},
@@ -904,6 +887,16 @@
 				{
 					"name": "get all location",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6IkhVWTIwMDFodXkyMDAxQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6ZmFsc2V9LCJpYXQiOjE2NzA0ODE0NDksImV4cCI6MTY3MDQ4MTYyOX0.R4fDl7HUfKMvsKxqgGPgtWeDBvGQtFmqdcjWFK0oo6Y",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -943,6 +936,16 @@
 				{
 					"name": "getLocationById",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MDQ4MTQ4MSwiZXhwIjoxNjcwNDgxNjYxfQ.cAIfGy5n6PetmIL_1Js7vgQcll-o9-LELXGSKybcvqE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -992,6 +995,16 @@
 				{
 					"name": "update loction",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGVBZG1pbiI6dHJ1ZX0sImlhdCI6MTY3MTQyOTkzNywiZXhwIjoxNjcxNDMzNTM3fQ.H_DHhdHzE4WvnRQLevuFPXibG9KhXACa9m9HnbjSgmY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
