@@ -28,7 +28,7 @@ const createComment = async (req, res, next) => {
 const getAllCommentByIdRoom = async (req, res, next) => {
     try {
         let { id } = req.params;
-        let data = await prisma.comments.findFirst({ where: { room_id: Number(id) } });
+        let data = await prisma.comments.findMany({ where: { room_id: Number(id) } });
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {
@@ -43,7 +43,7 @@ const getAllCommentByIdRoom = async (req, res, next) => {
 const getAllCommentByIdUser = async (req, res, next) => {
     try {
         let { id } = req.params;
-        let data = await prisma.comments.findFirst({ where: { customer_id: Number(id) } });
+        let data = await prisma.comments.findMany({ where: { customer_id: Number(id) } });
         if (data) {
             successCode(res, data, "find comment successfully")
         } else {

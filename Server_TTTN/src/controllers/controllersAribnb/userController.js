@@ -206,6 +206,17 @@ const uploadAvatar = async (req, res, next) => {
           where: { id: Number(id) },
           data: {
             avatar: result.url
+          },
+          select: {
+            id: true,
+            username: true,
+            gender: true,
+            phone: true,
+            email: true,
+            role: true,
+            created_at: true,
+            birthday: true,
+            avatar: true
           }
         })
         if (dataUpdate) {

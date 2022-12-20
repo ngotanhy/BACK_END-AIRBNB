@@ -33,14 +33,20 @@ const register = async (req, res, next) => {
         const token = authHeader && authHeader.split(' ')[1]
         if (token) {
           let { data } = jwt_decode(token, { data: true });
-          let checkAdmin = data ? data.roleAdmin : false;
-          Role = checkAdmin ? role : "USER";
+          let checkAdmin = data ? data.role : false;
+          let checkRole= role;
+          if (data.role) {
+            if (checkRole !== "USER" && checkRole !== "ADMIN") {
+              checkRole = "USER";
+            }
+          }
+          Role = checkAdmin ? checkRole : "USER";
         }
       }
       let dataCreate = { username, gender: genderConvert, phone, email, password: hashedPassword, birthday, role: Role }
       let useCreate = await prisma.users.create({ data: dataCreate });
       if (useCreate) {
-        successCode(res, useCreate, "create user successfully");
+        successCode(res, { ...useCreate, password: password }, "create user successfully");
         next()
       } else { failCode(res, false, "create user failed") }
     }
@@ -56,16 +62,8 @@ const singIn = async (req, res, next) => {
     if (UserLogin) {
       const isPasswordValid = await bcrypt.compare(password, UserLogin.password)
       if (isPasswordValid) {
-        const accessToken = await encodeToken({ userID: UserLogin.username + UserLogin.email, roleAdmin: UserLogin.role === 'ADMIN' ? true : false })
-        let userLogin = {
-          id: UserLogin.id,
-          username: UserLogin.username,
-          gender: UserLogin.gender,
-          email: UserLogin.email,
-          phone: UserLogin.phone,
-          role: UserLogin.role
-        }
-        successCode(res, { ...userLogin, accessToken: accessToken }, true);
+        const accessToken = await encodeToken({ userID: UserLogin.username + UserLogin.email, role: UserLogin.role === 'ADMIN' ? true : false })
+        successCode(res, { ...UserLogin, accessToken: accessToken, password: password }, 'login successfully');
         next()
       }
     } else {

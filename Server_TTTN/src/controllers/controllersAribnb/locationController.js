@@ -28,7 +28,7 @@ const createLocation = async (req, res, next) => {
 }
 
 const updateLocation = async (req, res, next) => {
-    try {   
+    try {
         let { id } = req.params;
         let { location, provine, nation } = req.body;
         let findLocation = await prisma.location.findFirst({
@@ -81,7 +81,7 @@ const deleteLocation = async (req, res, next) => {
 const getAllLocation = async (req, res, next) => {
     try {
         let data = await prisma.location.findMany({
-            include: { Room: { select: { id: true } } }
+            include: { Room: { select: { id: true, nameRoom: true, price: true, description: true } } }
         });
         if (!data.length) {
             failCode(res, false, "not data")
@@ -99,7 +99,7 @@ const getLocationById = async (req, res, next) => {
         let { id } = req.params;
         let data = await prisma.location.findFirst({
             where: { id: Number(id) },
-            include: { Room: true }
+            include: { Room: { select: { id: true, nameRoom: true, price: true, description: true } } }
         });
         if (data) {
             successCode(res, data, "find successfully");
@@ -122,7 +122,7 @@ const getPaginationLocation = async (req, res, next) => {
             take: Number(limit),
             include: {
                 Room: {
-                    select: { id: true }
+                    select: { id: true, nameRoom: true, price: true, description: true } 
                 }
             }
         });
