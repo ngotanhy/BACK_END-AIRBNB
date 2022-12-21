@@ -2,7 +2,6 @@ const {
     getAllUsers,
     getAllUserRoleUser,
     getUsersById,
-    // getUserAdmin,
     getUsersByName,
     deleteUser,
     getPaginationUsers,

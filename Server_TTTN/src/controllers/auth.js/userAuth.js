@@ -7,12 +7,11 @@ const bcrypt = require("bcrypt");
 require('dotenv').config();
 
 
-
 const register = async (req, res, next) => {
   try {
     const { username, gender, phone, email, password, birthday, role } = req.body;
     if (!email || !password) failCode(res, false, 'Missing email and/or password')
-    let checkUerName = await prisma.users.findFirst({
+    let checkUser = await prisma.users.findFirst({
       where: {
         OR: [
           { email: { contains: email } },
@@ -21,13 +20,23 @@ const register = async (req, res, next) => {
       }
     })
 
-    if (checkUerName) {
+    let checkUsername = await prisma.users.findFirst({
+      where: { username: { contains: username } }
+    })
+
+    if (checkUser) {
       failCode(res, false, "email or password available")
       next()
+    } if (checkUsername) {
+      failCode(res, false, "userName available")
+      next()
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       let genderConvert = (gender === "true" || gender === true ? true : false);
       let Role = 'USER';
+
       const authHeader = req.header('Authorization');
       if (authHeader) {
         const token = authHeader && authHeader.split(' ')[1]
@@ -43,10 +52,11 @@ const register = async (req, res, next) => {
           Role = checkAdmin ? checkRole : "USER";
         }
       }
-      let dataCreate = { username, gender: genderConvert, 
-        phone, email, 
-        password: hashedPassword, birthday, 
-        role: Role.toUpperCase(), isRemove: true 
+      let dataCreate = {
+        username, gender: genderConvert,
+        phone, email,
+        password: hashedPassword, birthday,
+        role: Role.toUpperCase(), isRemove: true
       }
       let useCreate = await prisma.users.create({ data: dataCreate });
       if (useCreate) {
@@ -67,7 +77,12 @@ const singIn = async (req, res, next) => {
       if (UserLogin.isRemove) {
         const isPasswordValid = await bcrypt.compare(password, UserLogin.password)
         if (isPasswordValid) {
-          const accessToken = await encodeToken({ userID: UserLogin.username + UserLogin.email, role: UserLogin.role === 'ADMIN' ? true : false })
+          const accessToken = await encodeToken({
+            useId: UserLogin.id,
+            userEmail: UserLogin.email,
+            role: UserLogin.role === 'ADMIN' ? true : false,
+            created_at: UserLogin.created_at
+          })
           successCode(res, { ...UserLogin, access_token: accessToken, password: password }, 'login successfully');
           next()
         }

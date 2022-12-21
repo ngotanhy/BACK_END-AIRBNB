@@ -87,7 +87,6 @@ const updateRoom = async (req, res, next) => {
         let findRoom = await prisma.room.findFirst({ where: { id: Number(id) } });
         if (findRoom) {
             let data = checkObjItem(findRoom, dataUpdate);
-            console.log(data);
             let updateRoom = await prisma.room.update({
                 where: { id: Number(id) },
                 data: data
@@ -151,12 +150,12 @@ const getRoomByName = async (req, res, next) => {
 const uploadImage = async (req, res, next) => {
     try {
         let { id } = req.params;
-        //delete url image 
+        //delete all url image of room  
         let checkImage = await prisma.image.findMany({
             where: { room_id: Number(id) }
         })
 
-        if (checkImage.length !== null) {
+        if (checkImage.length !== 0) {
             let res_dele = checkImage.map(item => new Promise((resolve, reject) => {
                 const publicId = extractPublicId(item.urlimage)
                 deletedImage((publicId)).then((result) => {
@@ -170,7 +169,7 @@ const uploadImage = async (req, res, next) => {
             })
         }
 
-
+        //upload image on clound
         let arrUrlImages = [];
         await (async () => {
             let length = req.files.length;
@@ -181,7 +180,7 @@ const uploadImage = async (req, res, next) => {
                 })
             }
         })();
-
+        //create url image of room
         let res_promises = arrUrlImages.map(filePath => new Promise((resolve, reject) => {
             prisma.image.create({
                 data: {
@@ -268,11 +267,34 @@ const deleteRoom = async (req, res, next) => {
         let { id } = req.params;
         let findRoom = await prisma.room.findFirst({ where: { id: Number(id) } });
         if (findRoom) {
+
+            //delete all type of room
             let findType = await prisma.typeroom.findFirst({ where: { room_id: Number(findRoom.id) } });
             if (findType) {
                 await prisma.typeroom.deleteMany({ where: { room_id: Number(findRoom.id) } });
             }
-            let deleteRoom = await prisma.room.delete({ where: { id: Number(id) } });
+
+            //delete all image og room
+            let checkImage = await prisma.image.findMany({
+                where: { room_id: Number(findRoom.id) }
+            })
+
+            if (checkImage.length !== 0) {
+                let res_dele = checkImage.map(item => new Promise((resolve, reject) => {
+                    console.log(item.urlimage);
+                    const publicId = extractPublicId(item.urlimage)
+                    deletedImage((publicId)).then((result) => {
+                        resolve(result);
+                    });
+                }));
+                Promise.all(res_dele).then((result) => {
+                    console.log(result, 'ok');
+                }).catch((err) => {
+                    console.log('error: ' + err);
+                })
+            }
+            //delete room
+            let deleteRoom = await prisma.room.delete({ where: { id: Number(findRoom.id) } });
             if (deleteRoom) {
                 successCode(res, true, "delete successfully");
             } else {

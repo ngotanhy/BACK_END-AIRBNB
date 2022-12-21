@@ -124,15 +124,14 @@ const updateBooking = async (req, res, next) => {
 
 // const changeNoteBookings = async (req, res, next) => {
 //     try {
-//         //thay doi trang thai booking
 //         let { note, id } = req.body;
 //         let findData = await prisma.bookingRoom.findFirst({
 //             where: { id: Number(id) }
 //         })
 //         if (findData) {
 //             let changeNoteBooking = await prisma.bookingRoom.update({
-//                 where: { id: Number(id) },
-//                 data: { note }
+//                 where: { id: Number(findData.id) },
+//                 data: { note:note }
 //             })
 //             if (changeNoteBooking) {
 //                 successCode(res, changeNoteBooking, "change note successfully")

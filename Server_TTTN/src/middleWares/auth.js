@@ -27,14 +27,15 @@ const verifyToken = (req, res, next) => {
         return res.status(401).json({ success: false, message: 'Access token not found' })
 
     try {
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        if (req.payload === decoded.payload) {
-            next()
-        } else {
-            return res.status(403).json({ success: false, message: 'Invalid token' })
-        }
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json({ success: false, message: 'Invalid token' })
+            } else {
+                req.user = user
+                next()
+            }
+        })
     } catch (error) {
-        console.log(error)
         return res.status(403).json({ success: false, message: 'Invalid token' })
     }
 }
@@ -61,14 +62,19 @@ const verifyTokenAdmin = async (req, res, next) => {
         return res.status(401).json({ success: false, message: 'Access token not found' })
 
     try {
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        if (req.payload === decoded.payload && decoded.data.role) {
-            next()
-        } else {
-            return res.status(403).json({ success: false, message: 'Invalid token' })
-        }
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json({ success: false, message: 'Invalid token' })
+            } else {
+                if (user.data.role) {
+                    req.user = user
+                    next()
+                } else {
+                    return res.status(403).json({ success: false, message: 'Invalid token' })
+                }
+            }
+        })
     } catch (error) {
-        console.log(error)
         return res.status(403).json({ success: false, message: 'Invalid token' })
     }
 }
