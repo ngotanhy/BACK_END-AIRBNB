@@ -8,4 +8,3 @@ export const allUsersRoute= `${host}/api/users/role`;
 export const getAllUsers = `${host}/api/users/`;
 export const getUserAdmin = `${host}/api/users/role_admin`;
 
-

@@ -11,7 +11,7 @@ type Props = {};
 
 export default function Login({}: Props) {
   const navigate = useNavigate();
-  const toastOptions:{} = {
+  const toastOptions: {} = {
     position: "bottom-right",
     autoClose: 8000,
     pauseOnHover: true,
@@ -25,8 +25,8 @@ export default function Login({}: Props) {
     }
   }, []);
 
-  const validateForm = (username:string,password:string) => {
-    if (username === "") {
+  const validateForm = (email: string, password: string) => {
+    if (email === "") {
       toast.error("Email and Password is required.", toastOptions);
       return false;
     } else if (password === "") {
@@ -36,11 +36,11 @@ export default function Login({}: Props) {
     return true;
   };
 
-  const handleSubmit = async (values:{username:string, password:string}) => {
-    const { username, password } = values;
-    if (validateForm(username, password)) {
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    const { email, password } = values;
+    if (validateForm(email, password)) {
       const { data } = await axios.post(loginRoute, {
-        username,
+        email,
         password,
       });
       if (data.message === false) {
@@ -62,17 +62,11 @@ export default function Login({}: Props) {
           onFinish={handleSubmit}
           autoComplete="off"
         >
-          <Form.Item
-            label="Username"
-            name="username"
-          >
+          <Form.Item label="email" name="email">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-          >
+          <Form.Item label="Password" name="password">
             <Input.Password />
           </Form.Item>
 

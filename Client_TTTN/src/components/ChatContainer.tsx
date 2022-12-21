@@ -1,15 +1,18 @@
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
-import { receiveMessageRoute, sendMessageRoute } from "../utils/APIRoutes";
-import { CURRENT_USER, getStoreJSON } from "../utils/configs";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Layout } from "antd";
 import InputChat from "./InputChat";
-import { user } from "../pages/Chat";
 import ContentChat from "./ContentChat";
+import _ from "lodash";
+import { user } from "../pages/Chat";
+import { CURRENT_USER, getStoreJSON } from "../utils/configs";
+import { receiveMessageRoute, sendMessageRoute } from "../utils/APIRoutes";
 const { Footer, Content } = Layout;
+
 type Props = {
-  currentChat: any;
+  currentChat: user | null;
   socket: React.MutableRefObject<any>;
+  arrUser: user[] | null;
 };
 
 type Message = {
@@ -17,11 +20,24 @@ type Message = {
   message: string;
 };
 
-export default function ChatContainer({ currentChat, socket }: Props) {
-  const [arrMessage, setArrMessage] = useState<any>();
-  const [arrivalMessage, setArrivalMessage] = useState<{}>();
+type ArrMessage = Message[] | null;
+
+export default function ChatContainer({ currentChat, socket, arrUser }: Props) {
+  const [arrMessage, setArrMessage] = useState<ArrMessage>(null);
+  const [arrivalMessage, setArrivalMessage] = useState<Message>();
   const [currentUser, setCurrentUser] = useState<user>();
   const scrollRef = useRef<any>();
+
+
+  const [userSend, setUserSend] = useState<user | null>(null);
+
+  const findUserSend = (id: number) => {
+    let findUser = arrUser?.find((user: user) => user.id === id);
+    if (findUser) {
+      setUserSend(findUser);
+    }
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -43,19 +59,19 @@ export default function ChatContainer({ currentChat, socket }: Props) {
 
   const handleSendMsg = async (msg: string) => {
     let currentUser = getStoreJSON(CURRENT_USER);
-    if (msg) {
+    if (msg.trim() !== "") {
       socket.current.emit("send-msg", {
-        to: currentChat.id,
+        to: currentChat?.id,
         from: currentUser.id,
         msg,
       });
       await axios.post(sendMessageRoute, {
         from: currentUser.id,
-        to: currentChat.id,
+        to: currentChat?.id,
         message: msg,
       });
 
-      let msgs = [...arrMessage];
+      let msgs = [...(arrMessage || [])];
       msgs.push({ fromSelf: true, message: msg });
       setArrMessage(msgs);
     }
@@ -65,9 +81,9 @@ export default function ChatContainer({ currentChat, socket }: Props) {
     if (socket.current) {
       socket.current.on(
         "msg-receive",
-        (data: { msg: string; from: string | number }) => {
-          console.log(data.msg);
-          setArrivalMessage({ fromSelf: false, message: data.msg });
+        async (data: { from: string; msg: string }) => {
+          await findUserSend(Number(data.from));
+          await setArrivalMessage({ fromSelf: false, message: data.msg });
         }
       );
     }
@@ -85,30 +101,67 @@ export default function ChatContainer({ currentChat, socket }: Props) {
     <>
       <Content
         className={
-          currentUser?.role === "user" ? "bg-slate-200 h-64" : "bg-slate-400"
+          currentUser?.role === "USER" ? "bg-slate-200 " : "bg-slate-400"
         }
       >
-        <div className="overflow-auto h-full px-6 mt-2">
-          {arrMessage?.map((message: Message, index: number) => {
-            return (
-              <div key={index} ref={scrollRef}>
-                {message.fromSelf ? (
-                  <ContentChat
-                    message={message.message}
-                    css={"bg-slate-100 text-black mb-2 inline-block py-1 px-3"}
-                    textLeftOrRight={"text-right"}
-                  />
-                ) : (
-                  <ContentChat
-                    message={message.message}
-                    css={"bg-slate-100 text-black mb-2 inline-block py-1 px-3"}
-                    textLeftOrRight={"text-left"}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
+        {currentUser?.role === "USER" && (
+          <div className="overflow-auto h-full px-6 mt-2 h-200px">
+            {arrMessage?.map((message: Message, index: number) => {
+              return (
+                <div key={index} ref={scrollRef}>
+                  {message.fromSelf ? (
+                    <ContentChat
+                      message={message.message}
+                      userName={""}
+                      css={
+                        "bg-slate-100 text-black mb-2 inline-block py-1 px-3"
+                      }
+                      textLeftOrRight={"text-right"}
+                    />
+                  ) : (
+                    <ContentChat
+                      message={message.message}
+                      userName={""}
+                      css={
+                        "bg-slate-100 text-black mb-2 inline-block py-1 px-3"
+                      }
+                      textLeftOrRight={"text-left"}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {currentUser?.role === "ADMIN"  && (
+          <div className="overflow-auto h-full px-6 mt-2 h-200px py-2">
+            {arrMessage?.map((message: Message, index: number) => {
+              return (
+                <div key={index} ref={scrollRef}>
+                  {message.fromSelf ? (
+                    <ContentChat
+                      message={message.message}
+                      userName={currentUser?.role}
+                      css={
+                        "bg-slate-100 text-black mb-2 inline-block py-1 px-3"
+                      }
+                      textLeftOrRight={"text-right"}
+                    />
+                  ) : (
+                    <ContentChat
+                      message={message.message}
+                      userName={userSend ? userSend?.username:currentChat?.username}
+                      css={
+                        "bg-slate-100 text-black mb-2 inline-block py-1 px-3"
+                      }
+                      textLeftOrRight={"text-left"}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </Content>
       <Footer>
         <InputChat handleSendMsg={handleSendMsg} />
