@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "f3720c99-547a-478a-97f8-f37226ed9af8",
-		"name": "BACKEND BOOKING ARIBNB",
+		"name": "BACKEND BOOKING AIRBNB",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20548282"
 	},
@@ -66,6 +66,36 @@
 					"response": []
 				},
 				{
+					"name": "delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1NDgxNTQsImV4cCI6MTY3MTU1MTc1NH0.swU3PYasGhmqN6vUpCKExM-gr-wys_vmwPnPdMsXhfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/users/deleteUser/13",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"deleteUser",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "get all users",
 					"request": {
 						"auth": {
@@ -73,7 +103,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6IkhVWTIwMDFodXkyMDAxQGdtYWlsLmNvbSIsInJvbGUiOmZhbHNlfSwiaWF0IjoxNjcxNTQ2NTE0LCJleHAiOjE2NzE1NTAxMTR9.PfzMtn_DCki6Y2AlUdgIIULnx2FdBxHT4leUVZPrcgU",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -176,36 +206,6 @@
 								"users",
 								"getUserByName",
 								"ngo"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete user",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1NDgxNTQsImV4cCI6MTY3MTU1MTc1NH0.swU3PYasGhmqN6vUpCKExM-gr-wys_vmwPnPdMsXhfA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/users/deleteUser/13",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"deleteUser",
-								"13"
 							]
 						}
 					},
@@ -422,6 +422,203 @@
 					"response": []
 				},
 				{
+					"name": "pagination room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/pagination?page=2&limit=2",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"pagination"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get location  room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/getRoom/locationRoom/4",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"getRoom",
+								"locationRoom",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get room by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/getRoomBynName/test",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"getRoomBynName",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get room by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/getRoomById/4",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"getRoomById",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzU4MDMsImV4cCI6MTY3MTUzOTQwM30.PLZNyQgHBI3cd5OuoYEqFir2j9FToEItR4WsJ6Hut_U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"nameRoom\":\"test22\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"10\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"2\",\r\n            \"kitchen\":\"true\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"1\",\r\n            \"location_id\":\"6\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"nameRoom\":\"test21\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"20\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"4\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/update_room/21",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"update_room",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/room/delete_room/21",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"delete_room",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "upload image room",
 					"request": {
 						"auth": {
@@ -476,203 +673,6 @@
 								"room",
 								"upload_Image",
 								"17"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create room",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzU4MDMsImV4cCI6MTY3MTUzOTQwM30.PLZNyQgHBI3cd5OuoYEqFir2j9FToEItR4WsJ6Hut_U",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n            \"nameRoom\":\"test22\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"10\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"2\",\r\n            \"kitchen\":\"true\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"1\",\r\n            \"location_id\":\"6\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get room by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/getRoomById/4",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"getRoomById",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "pagination room",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/pagination?page=2&limit=2",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"pagination"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "2"
-								},
-								{
-									"key": "limit",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get location  room",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/getRoom/locationRoom/4",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"getRoom",
-								"locationRoom",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update room",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n            \"nameRoom\":\"test21\",\r\n            \"price\":\"2000\",\r\n            \"bathRoom\":\"1\",\r\n            \"numberCustomer\":\"20\",\r\n            \"iron\":\"false\",\r\n            \"bedRoom\":\"1\",\r\n            \"bed\":\"10\",\r\n            \"kitchen\":\"false\",\r\n            \"pool\":\"true\",\r\n            \"tivi\":\"false\",\r\n            \"wifi\":\"true\",\r\n            \"airCondition\":\"true\",\r\n            \"parkingCar\":\"true\",\r\n            \"location_id\":\"4\",\r\n            \"washing\":\"true\",\r\n            \"description\":\"test\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/update_room/21",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"update_room",
-								"21"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get room by name",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/getRoomBynName/test",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"getRoomBynName",
-								"test"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete room",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/room/delete_room/21",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"room",
-								"delete_room",
-								"21"
 							]
 						}
 					},
@@ -737,6 +737,36 @@
 								"bookingRoom",
 								"getBooking",
 								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get booking by id user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/bookingRoom/getByIdUser/120",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"bookingRoom",
+								"getByIdUser",
+								"120"
 							]
 						}
 					},
@@ -820,30 +850,20 @@
 					"response": []
 				},
 				{
-					"name": "get booking by id user",
+					"name": "delete booking",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/bookingRoom/getByIdUser/120",
+							"raw": "{{domainTTTN}}/api/bookingRoom/delete/15",
 							"host": [
 								"{{domainTTTN}}"
 							],
 							"path": [
 								"api",
 								"bookingRoom",
-								"getByIdUser",
-								"120"
+								"delete",
+								"15"
 							]
 						}
 					},
@@ -892,7 +912,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Imh5QGdtYWlsLmNvbWh5QGdtYWlsLmNvbSIsImFkbWluIjpmYWxzZX0sImlhdCI6MTY2OTUzMDA4MCwiZXhwIjoxNjY5NTMwMjYwfQ.iIt7NX5okPlOQvacX2W969Z1zZVxdXWkumifGQ7aFWQ",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -900,7 +920,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{domainTTTN}}/api/comment/getCommentRoom/11",
+							"raw": "{{domainTTTN}}/api/comment/getCommentRoom/12",
 							"host": [
 								"{{domainTTTN}}"
 							],
@@ -908,7 +928,7 @@
 								"api",
 								"comment",
 								"getCommentRoom",
-								"11"
+								"12"
 							]
 						}
 					},
@@ -1024,7 +1044,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZUlkIjozMiwidXNlckVtYWlsIjoiaG9hbmdwcm9AZ21haWwuY29tIiwicm9sZSI6dHJ1ZSwiY3JlYXRlZF9hdCI6IjIwMjItMTEtMjdUMDM6NTI6MzUuMDAwWiJ9LCJpYXQiOjE2NzE2MTA3NDksImV4cCI6MTY3MTYxNDM0OX0.wZ-Rq1CWhIhXY3r5kV92soVlrcqzR9mRu0AKBresLJk",
 									"type": "string"
 								}
 							]
@@ -1065,104 +1085,6 @@
 								"api",
 								"location",
 								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all location",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/location/getAllLocation",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"location",
-								"getAllLocation"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete location",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/location/deleteLocation/22",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"location",
-								"deleteLocation",
-								"22"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getLocationById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/location/getLocationById/4",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"location",
-								"getLocationById",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "pagination Location",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/location/paginationLocation?page=1&limit=3",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"location",
-								"paginationLocation"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "3"
-								}
 							]
 						}
 					},
@@ -1218,6 +1140,104 @@
 								"location",
 								"update",
 								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MjM0MjQsImV4cCI6MTY3MTUyNzAyNH0.t_u_h0AffMSmTMai232u1A6jqheSjyKYea19pzAmLww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/location/deleteLocation/22",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"location",
+								"deleteLocation",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/location/getAllLocation",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"location",
+								"getAllLocation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLocationById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/location/getLocationById/4",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"location",
+								"getLocationById",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pagination Location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/location/paginationLocation?page=1&limit=3",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"location",
+								"paginationLocation"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -1305,36 +1325,6 @@
 					"response": []
 				},
 				{
-					"name": "delete type room",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{domainTTTN}}/api/type/delete_type/16",
-							"host": [
-								"{{domainTTTN}}"
-							],
-							"path": [
-								"api",
-								"type",
-								"delete_type",
-								"16"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "update type room",
 					"request": {
 						"auth": {
@@ -1368,6 +1358,36 @@
 								"type",
 								"update_type",
 								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete type room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJRCI6Ik1Ib2FuZ2hvYW5ncHJvQGdtYWlsLmNvbSIsInJvbGUiOnRydWV9LCJpYXQiOjE2NzE1MzExODEsImV4cCI6MTY3MTUzNDc4MX0.QESCGgYmIPdkm4afJkMuE8QbQ-gMCqoIcluY_sgin7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{domainTTTN}}/api/type/delete_type/16",
+							"host": [
+								"{{domainTTTN}}"
+							],
+							"path": [
+								"api",
+								"type",
+								"delete_type",
+								"16"
 							]
 						}
 					},
