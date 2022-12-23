@@ -1,6 +1,7 @@
 # AirBnb_Backend_CapstoneFinal_Cybersoft
 
-# Thành viên thực hiện : Ngô Tấn Hỷ, Nguyễn Minh Hoàng
+# Thành viên thực hiện : 
+Ngô Tấn Hỷ, Nguyễn Minh Hoàng
 
 # Công nghệ sử dụng 
 Nodejs, MySQL, Docker, Prisma, Express, JWT
